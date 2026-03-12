@@ -31,6 +31,17 @@ class FortifyServiceProvider extends ServiceProvider
         $this->configureActions();
         $this->configureViews();
         $this->configureRateLimiting();
+        Fortify::authenticateUsing(function ($request) {
+
+        $user = \App\Models\User::where('email', $request->email)->first();
+
+        if ($user &&
+            \Hash::check($request->password, $user->password) &&
+            $user->status === 'aktif') {
+
+            return $user;
+        }
+    });
     }
 
     /**
