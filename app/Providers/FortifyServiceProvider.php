@@ -31,6 +31,7 @@ class FortifyServiceProvider extends ServiceProvider
         $this->configureActions();
         $this->configureViews();
         $this->configureRateLimiting();
+        $this->configureRedirects();
         Fortify::authenticateUsing(function ($request) {
 
         $user = \App\Models\User::where('email', $request->email)->first();
@@ -97,6 +98,24 @@ class FortifyServiceProvider extends ServiceProvider
             $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
 
             return Limit::perMinute(5)->by($throttleKey);
+        });
+    }
+
+    /**
+     * Configure redirects after authentication.
+     */
+    private function configureRedirects(): void
+    {
+        Fortify::redirects('login', function ($request) {
+            $user = auth()->user();
+
+            if ($user->role === 'admin') {
+                return '/admin/dashboard';
+            } elseif ($user->role === 'masyarakat') {
+                return '/masyarakat/dashboard';
+            }
+
+            return '/login'; // fallback
         });
     }
 }

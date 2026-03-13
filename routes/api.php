@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JadwalKegiatanController;
 use App\Http\Controllers\StokDarahController;
 use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\MasyarakatController;
+use App\Http\Controllers\PendonorController;
 
 
 Route::get('/user', function (Request $request) {
@@ -21,3 +23,5 @@ Route::post('/berita', [BeritaController::class, 'store']);
 Route::get('/berita/{id}', [BeritaController::class, 'show']);
 Route::put('/berita/{id}', [BeritaController::class, 'update']);
 Route::delete('/berita/{id}', [BeritaController::class, 'destroy']);
+Route::apiResource('masyarakat', MasyarakatController::class);
+Route::apiResource('pendonor', PendonorController::class);
