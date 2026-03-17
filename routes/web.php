@@ -33,6 +33,20 @@ Route::middleware(['auth','role:admin'])->group(function () {
     });
 });
 
+Route::get('/admin/berita/edit/{id}', function ($id) {
+    return inertia('admin/EditBerita', [
+        'id' => $id
+    ]);
+});
+
+Route::get('/admin/berita', function () {
+    return inertia('admin/ListBerita');
+});
+
+Route::get('/admin/berita/create', function () {
+    return inertia('admin/CreateBerita');
+});
+
 Route::middleware(['auth','role:masyarakat'])->group(function () {
     Route::get('/dashboard', function () {
         return inertia('masyarakat/Dashboard');
