@@ -38,6 +38,34 @@ Route::get('/admin/berita/create', function () {
     return inertia('admin/CreateBerita');
 });
 
+Route::get('/admin/stok-darah', function () {
+    return inertia('admin/ListStokDarah');
+});
+
+Route::get('/admin/stok-darah/create', function () {
+    return inertia('admin/CreateStokDarah');
+});
+
+Route::get('/admin/stok-darah/edit/{id}', function ($id) {
+    return inertia('admin/EditStokDarah', [
+        'id' => $id
+    ]);
+});
+
+Route::get('/admin/jadwal', function () {
+    return inertia('admin/ListJadwalKegiatan');
+});
+
+Route::get('/admin/jadwal/create', function () {
+    return inertia('admin/CreateJadwalKegiatan');
+});
+
+Route::get('/admin/jadwal/edit/{id}', function ($id) {
+    return inertia('admin/EditJadwalKegiatan', [
+        'id' => $id
+    ]);
+});
+
 Route::middleware(['auth','role:masyarakat'])->group(function () {
     Route::get('/dashboard', function () {
         return inertia('masyarakat/Dashboard');

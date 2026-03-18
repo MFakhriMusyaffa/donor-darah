@@ -19,7 +19,7 @@ import { Head } from '@inertiajs/vue3';
             </div>
 
             <table class="w-full border">
-                <thead class="bg-gray-100">
+                <thead class="bg-pink-50">
                     <tr>
                         <th class="border p-2 text-left">Judul</th>
                         <th class="border p-2 text-left">Tanggal</th>
