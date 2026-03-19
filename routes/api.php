@@ -5,11 +5,22 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JadwalKegiatanController;
 use App\Http\Controllers\StokDarahController;
 use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\MasyarakatController;
+use App\Http\Controllers\PendonorController;
 
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::middleware('auth:sanctum')->group(function () {
+    // Route user yang sudah ada
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    // TAMBAHKAN INI UNTUK LOGOUT API
+    Route::post('/logout', function (Request $request) {
+        $request->user()->currentAccessToken()->delete();
+        return response()->json(['message' => 'Logged out successfully']);
+    });
+});
 Route::apiResource('jadwal-kegiatan', JadwalKegiatanController::class);
 Route::get('/stok-darah', [StokDarahController::class, 'index']);
 Route::post('/stok-darah', [StokDarahController::class, 'store']);
@@ -21,3 +32,6 @@ Route::post('/berita', [BeritaController::class, 'store']);
 Route::get('/berita/{id}', [BeritaController::class, 'show']);
 Route::put('/berita/{id}', [BeritaController::class, 'update']);
 Route::delete('/berita/{id}', [BeritaController::class, 'destroy']);
+Route::apiResource('masyarakat', MasyarakatController::class);
+Route::apiResource('pendonor', PendonorController::class);
+
