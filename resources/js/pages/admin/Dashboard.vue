@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3'
+import { Head, Form } from '@inertiajs/vue3'
+import { Button } from '@/components/ui/button'
 </script>
 
 <template>
@@ -17,6 +18,14 @@ import { Head } from '@inertiajs/vue3'
 
             <div class="mt-6 text-sm text-gray-500">
                 Sistem Manajemen Donor Darah
+            </div>
+
+            <div class="mt-8">
+                <Form method="POST" action="/logout">
+                    <Button type="submit" class="w-full bg-red-600 hover:bg-red-700">
+                        Logout
+                    </Button>
+                </Form>
             </div>
         </div>
     </div>
