@@ -30,7 +30,7 @@ Route::inertia('/register', 'auth/Register')->name('register');
 Route::middleware(['auth','role:admin'])->group(function () {
     Route::get('/admin/dashboard', function () {
         return inertia('admin/Dashboard');
-    });
+    })->name('admin.dashboard');
 });
 
 Route::get('/admin/berita/edit/{id}', function ($id) {
@@ -49,8 +49,8 @@ Route::get('/admin/berita/create', function () {
 
 Route::middleware(['auth','role:masyarakat'])->group(function () {
     Route::get('/dashboard', function () {
-        return inertia('masyarakat/Dashboard');
-    });
+        return inertia('Dashboard');
+    })->name('dashboard');
 });
 
 require __DIR__.'/settings.php';
