@@ -6,8 +6,6 @@ use Laravel\Fortify\Features;
 Route::inertia('/', 'Welcome', [
     'canRegister' => Features::enabled(Features::registration()),
 ])->name('home');
-    
-Route::inertia('/dashboard', 'Dashboard')->name('dashboard');
 
 /* ROUTE AUTH PAGES */
 // Route::get('/login', function () {
@@ -34,8 +32,8 @@ Route::middleware(['auth','role:admin'])->group(function () {
 
 Route::middleware(['auth','role:masyarakat'])->group(function () {
     Route::get('/dashboard', function () {
-        return inertia('masyarakat/Dashboard');
-    });
+        return inertia('Dashboard');
+    })->name('dashboard');
 });
 
 Route::middleware(['auth','role:admin'])->group(function () {
