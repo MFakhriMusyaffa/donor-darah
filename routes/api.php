@@ -34,4 +34,3 @@ Route::put('/berita/{id}', [BeritaController::class, 'update']);
 Route::delete('/berita/{id}', [BeritaController::class, 'destroy']);
 Route::apiResource('masyarakat', MasyarakatController::class);
 Route::apiResource('pendonor', PendonorController::class);
-

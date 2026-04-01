@@ -29,7 +29,7 @@ Route::inertia('/register', 'auth/Register')->name('register');
 Route::middleware(['auth','role:admin'])->group(function () {
     Route::get('/admin/dashboard', function () {
         return inertia('admin/Dashboard');
-    });
+    })->name('admin.dashboard');
 });
 
 Route::middleware(['auth','role:masyarakat'])->group(function () {
@@ -38,21 +38,44 @@ Route::middleware(['auth','role:masyarakat'])->group(function () {
     });
 });
 
-Route::get('/admin/berita/edit/{id}', function ($id) {
-    return inertia('admin/EditBerita', [
-        'id' => $id
-    ]);
-});
+// BERITA YEZZ 
+    Route::get('/admin/berita', function () {
+        return inertia('admin/berita/List');
+    });
 
-Route::get('/admin/berita', function () {
-    return inertia('admin/ListBerita');
-});
+    Route::get('/admin/berita/create', function () {
+        return inertia('admin/berita/Create');
+    });
 
-Route::get('/admin/berita/create', function () {
-    return inertia('admin/CreateBerita');
-});
+    Route::get('/admin/berita/edit/{id}', function ($id) {
+        return inertia('admin/berita/Edit', ['id' => $id]);
+    });
 
+    // STOK DARAH YEZZ 
+    Route::get('/admin/stok-darah', function () {
+        return inertia('admin/stok-darah/List');
+    });
 
+    Route::get('/admin/stok-darah/create', function () {
+        return inertia('admin/stok-darah/Create');
+    });
+
+    Route::get('/admin/stok-darah/edit/{id}', function ($id) {
+        return inertia('admin/stok-darah/Edit', ['id' => $id]);
+    });
+
+    // JADWAL YEZZ 
+    Route::get('/admin/jadwal', function () {
+        return inertia('admin/jadwal/List');
+    });
+
+    Route::get('/admin/jadwal/create', function () {
+        return inertia('admin/jadwal/Create');
+    });
+
+    Route::get('/admin/jadwal/edit/{id}', function ($id) {
+        return inertia('admin/jadwal/Edit', ['id' => $id]);
+    });
 
 Route::get('/', function () {
     if (auth()->check()) {
