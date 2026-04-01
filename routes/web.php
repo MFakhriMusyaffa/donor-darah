@@ -2,23 +2,22 @@
 
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
-use App\Http\Controllers\StokDarahController;
-use App\Http\Controllers\BeritaController;
 
-Route::get('/', function () {
-    if (auth()->check()) {
-        $user = auth()->user();
-        if ($user->role === 'admin') {
-            return redirect('/admin/dashboard');
-        } elseif ($user->role === 'masyarakat') {
-            return redirect('/dashboard');
-        }
-        return redirect('/dashboard'); // fallback
-    }
-    return redirect('/login');
-})->name('home');
+Route::inertia('/', 'Welcome', [
+    'canRegister' => Features::enabled(Features::registration()),
+])->name('home');
+    
+Route::inertia('/dashboard', 'Dashboard')->name('dashboard');
 
 /* ROUTE AUTH PAGES */
+// Route::get('/login', function () {
+//     return inertia('auth/Login', [
+//         'canResetPassword' => true,
+//         'canRegister' => true,
+//     ]);
+// })->name('login');
+// Route::inertia('/register', 'auth/Register')->name('register');
+
 Route::get('/login', function () {
     return inertia('auth/Login', [
         'canResetPassword' => true,
@@ -31,6 +30,12 @@ Route::middleware(['auth','role:admin'])->group(function () {
     Route::get('/admin/dashboard', function () {
         return inertia('admin/Dashboard');
     })->name('admin.dashboard');
+});
+
+Route::middleware(['auth','role:masyarakat'])->group(function () {
+    Route::get('/dashboard', function () {
+        return inertia('masyarakat/Dashboard');
+    });
 });
 
 // BERITA YEZZ 
@@ -72,11 +77,22 @@ Route::middleware(['auth','role:admin'])->group(function () {
         return inertia('admin/jadwal/Edit', ['id' => $id]);
     });
 
+Route::get('/', function () {
+    if (auth()->check()) {
+        $user = auth()->user();
+        if ($user->role === 'admin') {
+            return redirect('/admin/dashboard');
+        } elseif ($user->role === 'masyarakat') {
+            return redirect('/dashboard');
+        }
+        return redirect('/dashboard'); // fallback
+    }
+    return redirect('/login');
+})->name('home');
 
-Route::middleware(['auth','role:masyarakat'])->group(function () {
-    Route::get('/dashboard', function () {
-        return inertia('Dashboard');
-    })->name('dashboard');
+Route::get('/logout', function () {
+    auth()->logout();
+    return redirect('/login');
 });
 
 require __DIR__.'/settings.php';

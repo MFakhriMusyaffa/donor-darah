@@ -9,9 +9,18 @@ use App\Http\Controllers\MasyarakatController;
 use App\Http\Controllers\PendonorController;
 
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::middleware('auth:sanctum')->group(function () {
+    // Route user yang sudah ada
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    // TAMBAHKAN INI UNTUK LOGOUT API
+    Route::post('/logout', function (Request $request) {
+        $request->user()->currentAccessToken()->delete();
+        return response()->json(['message' => 'Logged out successfully']);
+    });
+});
 Route::apiResource('jadwal-kegiatan', JadwalKegiatanController::class);
 Route::get('/stok-darah', [StokDarahController::class, 'index']);
 Route::post('/stok-darah', [StokDarahController::class, 'store']);
