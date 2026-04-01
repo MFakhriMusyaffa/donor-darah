@@ -41,6 +41,16 @@ class FortifyServiceProvider extends ServiceProvider
 
             return $user;
         }
+        
+    });
+        $this->app->singleton(LoginResponse::class, function () {
+        return redirect()->intended(config('fortify.home'))
+                         ->with('success', 'Welcome back! You have successfully logged in.');
+    });
+
+        $this->app->singleton(RegisterResponse::class, function () {
+        return redirect(config('fortify.home'))
+                         ->with('success', 'Account created successfully. Welcome!');
     });
     }
 
