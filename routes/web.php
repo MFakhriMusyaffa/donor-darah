@@ -38,6 +38,7 @@ Route::middleware(['auth','role:masyarakat'])->group(function () {
     });
 });
 
+Route::middleware(['auth','role:admin'])->group(function () {
     // BERITA 
     Route::get('/admin/berita', function () {
         return inertia('admin/berita/List');
