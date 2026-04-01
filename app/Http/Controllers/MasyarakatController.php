@@ -12,15 +12,8 @@ class MasyarakatController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $masyarakats = Masyarakat::with('user')->get();
+        return response()->json($masyarakats);
     }
 
     /**
@@ -28,7 +21,18 @@ class MasyarakatController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'nama' => 'required|string|max:255',
+            'jenis_kelamin' => 'required|in:L,P',
+            'tanggal_lahir' => 'required|date',
+            'email' => 'required|email|unique:masyarakat,email',
+            'no_hp' => 'required|string|max:15',
+            'alamat' => 'required|string',
+        ]);
+
+        $masyarakat = Masyarakat::create($request->all());
+        return response()->json($masyarakat, 201);
     }
 
     /**
@@ -36,15 +40,7 @@ class MasyarakatController extends Controller
      */
     public function show(Masyarakat $masyarakat)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Masyarakat $masyarakat)
-    {
-        //
+        return response()->json($masyarakat->load('user'));
     }
 
     /**
@@ -52,7 +48,18 @@ class MasyarakatController extends Controller
      */
     public function update(Request $request, Masyarakat $masyarakat)
     {
-        //
+        $request->validate([
+            'user_id' => 'sometimes|exists:users,id',
+            'nama' => 'sometimes|string|max:255',
+            'jenis_kelamin' => 'sometimes|in:L,P',
+            'tanggal_lahir' => 'sometimes|date',
+            'email' => 'sometimes|email|unique:masyarakat,email,' . $masyarakat->id,
+            'no_hp' => 'sometimes|string|max:15',
+            'alamat' => 'sometimes|string',
+        ]);
+
+        $masyarakat->update($request->all());
+        return response()->json($masyarakat);
     }
 
     /**
@@ -60,6 +67,7 @@ class MasyarakatController extends Controller
      */
     public function destroy(Masyarakat $masyarakat)
     {
-        //
+        $masyarakat->delete();
+        return response()->json(['message' => 'Masyarakat deleted successfully']);
     }
 }

@@ -1,45 +1,55 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
-import PlaceholderPattern from '@/components/PlaceholderPattern.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import type { BreadcrumbItem } from '@/types';
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Dashboard',
-        href: "/dashboard",
-    },
-];
+import TopCards from '@/components/dashboards/modern/TopCards.vue';
+import RevenueUpdate from '@/components/dashboards/modern/RevenueUpdate.vue';
+import YearlyBreakup from '@/components/dashboards/modern/YearlyBreakup.vue';
+import MonthlyEarning from '@/components/dashboards/modern/MonthlyEarning.vue';
+
+import ProfileWelcome from '@/components/dashboards/modern/ProfileWelcome.vue';
+
+import RecentTransaction from '@/components/dashboards/modern/RecentTransaction.vue';
+import TopPerformer from '@/components/dashboards/modern/TopPerformer.vue';
+import Footer from '@/components/dashboards/modern/Footer.vue';
+
+const breadcrumbs: BreadcrumbItem[] = [];
 </script>
 
 <template>
-    <Head title="Dashboard" />
-
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div
-            class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4"
-        >
-            <div class="grid auto-rows-min gap-4 md:grid-cols-3">
-                <div
-                    class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border"
-                >
-                    <PlaceholderPattern />
-                </div>
-                <div
-                    class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border"
-                >
-                    <PlaceholderPattern />
-                </div>
-                <div
-                    class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border"
-                >
-                    <PlaceholderPattern />
+        <Head title="Dashboard Masyarakat" />
+
+        <div class="grid grid-cols-12 gap-6">
+            <div class="col-span-12">
+                <ProfileWelcome />
+            </div>
+            <div class="col-span-12">
+                <TopCards />
+            </div>
+            <div class="col-span-12 lg:col-span-8">
+                <RevenueUpdate />
+            </div>
+            <div class="col-span-12 lg:col-span-4">
+                <div class="grid grid-cols-12 gap-6">
+                    <div class="col-span-12">
+                        <YearlyBreakup />
+                    </div>
+                    <div class="col-span-12">
+                        <MonthlyEarning />
+                    </div>
                 </div>
             </div>
-            <div
-                class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border"
-            >
-                <PlaceholderPattern />
+            <div class="col-span-12 lg:col-span-4">
+                <RecentTransaction />
+            </div>
+            <div class="col-span-12 flex lg:col-span-8">
+                <TopPerformer />
+            </div>
+
+            <div class="col-span-12">
+                <Footer />
             </div>
         </div>
     </AppLayout>

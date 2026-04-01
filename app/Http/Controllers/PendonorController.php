@@ -12,15 +12,8 @@ class PendonorController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $pendonors = Pendonor::with('masyarakat')->get();
+        return response()->json($pendonors);
     }
 
     /**
@@ -28,7 +21,14 @@ class PendonorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'masyarakat_id' => 'required|exists:masyarakat,id',
+            'gol_darah' => 'required|in:A,B,AB,O',
+            'rhesus' => 'required|in:+,-',
+        ]);
+
+        $pendonor = Pendonor::create($request->all());
+        return response()->json($pendonor, 201);
     }
 
     /**
@@ -36,15 +36,7 @@ class PendonorController extends Controller
      */
     public function show(Pendonor $pendonor)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Pendonor $pendonor)
-    {
-        //
+        return response()->json($pendonor->load('masyarakat'));
     }
 
     /**
@@ -52,7 +44,14 @@ class PendonorController extends Controller
      */
     public function update(Request $request, Pendonor $pendonor)
     {
-        //
+        $request->validate([
+            'masyarakat_id' => 'sometimes|exists:masyarakat,id',
+            'gol_darah' => 'sometimes|in:A,B,AB,O',
+            'rhesus' => 'sometimes|in:+,-',
+        ]);
+
+        $pendonor->update($request->all());
+        return response()->json($pendonor);
     }
 
     /**
@@ -60,6 +59,7 @@ class PendonorController extends Controller
      */
     public function destroy(Pendonor $pendonor)
     {
-        //
+        $pendonor->delete();
+        return response()->json(['message' => 'Pendonor deleted successfully']);
     }
 }
