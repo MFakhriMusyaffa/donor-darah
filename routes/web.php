@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
+use App\Models\Berita;
+use App\Models\JadwalKegiatan;
+use App\Models\StokDarah;
+use App\Models\User;
 
 Route::inertia('/', 'Welcome', [
     'canRegister' => Features::enabled(Features::registration()),
@@ -26,7 +30,30 @@ Route::inertia('/register', 'auth/Register')->name('register');
 
 Route::middleware(['auth','role:admin'])->group(function () {
     Route::get('/admin/dashboard', function () {
-        return inertia('admin/Dashboard');
+        return inertia('admin/Dashboard', [
+            'counts' => [
+                'users' => User::count(),
+                'stokDarah' => StokDarah::count(),
+                'jadwal' => JadwalKegiatan::count(),
+                'berita' => Berita::count(),
+            ],
+            'users' => User::select('id', 'name', 'email', 'role')
+                ->orderByDesc('created_at')
+                ->limit(5)
+                ->get(),
+            'stokDarah' => StokDarah::select('id', 'golongan_darah', 'rhesus', 'jumlah_kantong')
+                ->orderByDesc('updated_at')
+                ->limit(5)
+                ->get(),
+            'jadwal' => JadwalKegiatan::select('id', 'event_name', 'start_event', 'location')
+                ->orderByDesc('start_event')
+                ->limit(5)
+                ->get(),
+            'berita' => Berita::select('id', 'title', 'publish_date')
+                ->orderByDesc('publish_date')
+                ->limit(5)
+                ->get(),
+        ]);
     })->name('admin.dashboard');
 });
 
@@ -37,6 +64,23 @@ Route::middleware(['auth','role:masyarakat'])->group(function () {
 });
 
 Route::middleware(['auth','role:admin'])->group(function () {
+    // USER
+    Route::get('/admin/users', function () {
+        return inertia('admin/users/List', [
+            'users' => User::select('id', 'name', 'email', 'role', 'created_at')
+                ->orderByDesc('created_at')
+                ->get(),
+        ]);
+    })->name('admin.users');
+
+    Route::get('/admin/users/create', function () {
+        return inertia('admin/users/Create');
+    })->name('admin.users.create');
+
+    Route::get('/admin/users/edit/{id}', function ($id) {
+        return inertia('admin/users/Edit', ['id' => $id]);
+    })->name('admin.users.edit');
+
     // BERITA 
     Route::get('/admin/berita', function () {
         return inertia('admin/berita/List');
