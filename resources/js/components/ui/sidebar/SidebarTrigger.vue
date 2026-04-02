@@ -19,12 +19,12 @@ const { toggleSidebar } = useSidebar();
     data-slot="sidebar-trigger"
     variant="ghost"
     size="icon"
-    :class="cn('h-10 w-10 text-muted hover:bg-lightprimary hover:text-primary dark:hover:bg-lightprimary dark:hover:text-primary rounded-full', props.class)"
+    :class="cn('h-10 w-10 text-sidebar-foreground hover:bg-lightprimary hover:text-primary dark:hover:bg-lightprimary dark:hover:text-primary rounded-full', props.class)"
     
     @click="toggleSidebar"
   >
 
-    <Icon icon="tabler:menu-2" class="!h-5 !w-5"  />
+    <Icon icon="tabler:menu-2" class="h-5! w-5!"  />
     <span class="sr-only">Toggle Sidebar</span>
   </Button>
 </template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, FolderGit2, LayoutGrid } from 'lucide-vue-next';
+import { BookOpen, FolderGit2, LayoutGrid, Calendar, Droplet } from 'lucide-vue-next';
 import AppLogo from '@/components/AppLogo.vue';
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
@@ -23,20 +23,24 @@ const mainNavItems: NavItem[] = [
         href: dashboard(),
         icon: LayoutGrid,
     },
-];
-
-const footerNavItems: NavItem[] = [
     {
-        title: 'Repository',
-        href: 'https://github.com/laravel/vue-starter-kit',
-        icon: FolderGit2,
+        title: 'Stok Darah',
+        href: '/admin/stok-darah',
+        icon: Droplet,
     },
     {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#vue',
+        title: 'Jadwal Kegiatan',
+        href: '/admin/jadwal',
+        icon: Calendar,
+    },
+    {
+        title: 'Berita',
+        href: '/admin/berita',
         icon: BookOpen,
     },
 ];
+
+const footerNavItems: NavItem[] = [];
 </script>
 
 <template>
@@ -58,7 +62,7 @@ const footerNavItems: NavItem[] = [
         </SidebarContent>
 
         <SidebarFooter>
-            <NavFooter :items="footerNavItems" />
+            <NavFooter v-if="footerNavItems.length > 0" :items="footerNavItems" />
             <NavUser />
         </SidebarFooter>
     </Sidebar>
