@@ -10,7 +10,7 @@ const form = reactive({
     detail: '',
 });
 
-const submit = () => {
+const submit = async () => {
     if (
         !form.event_name ||
         !form.start_event ||
@@ -23,19 +23,20 @@ const submit = () => {
     }
 
     if (form.end_event < form.start_event) {
-        alert('Tanggal selesai tidak boleh sebelum tanggal mulai!');
+        alert('Tanggal tidak valid!');
         return;
     }
 
-    console.log('DATA DIKIRIM:', form);
+    await fetch('/api/jadwal-kegiatan', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form),
+    });
 
-    alert('Jadwal berhasil ditambahkan (dummy)');
-
-    form.event_name = '';
-    form.start_event = '';
-    form.end_event = '';
-    form.location = '';
-    form.detail = '';
+    alert('Berhasil ditambahkan!');
+    window.location.href = '/admin/jadwal';
 };
 </script>
 
