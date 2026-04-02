@@ -5,6 +5,7 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
+    useSidebar,
 } from '@/components/ui/sidebar';
 import { toUrl } from '@/lib/utils';
 import type { NavItem } from '@/types';
@@ -15,6 +16,8 @@ type Props = {
 };
 
 defineProps<Props>();
+
+const { state } = useSidebar();
 </script>
 
 <template>
@@ -27,6 +30,7 @@ defineProps<Props>();
                     <SidebarMenuButton
                         class="text-neutral-600 hover:text-neutral-800 dark:text-neutral-300 dark:hover:text-neutral-100"
                         as-child
+                        :tooltip="item.title"
                     >
                         <a
                             :href="toUrl(item.href)"
@@ -34,7 +38,7 @@ defineProps<Props>();
                             rel="noopener noreferrer"
                         >
                             <component :is="item.icon" />
-                            <span>{{ item.title }}</span>
+                            <span v-if="state === 'expanded'">{{ item.title }}</span>
                         </a>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
