@@ -32,23 +32,22 @@ import 'swiper/css'
       class="mySwiper w-full"
     >
       <SwiperSlide v-for="item in TopCardInfo" :key="item.key" class="!w-auto">
-        <Link :href="item.url" class="block min-w-max">
-          <Card :class="`${item.bgcolor} w-full border-none shadow-none`">
-            <div class="text-center hover:scale-105 transition-all ease-in-out">
-              <div class="flex justify-center">
+        <Link :href="item.url" class="block min-w-max group">
+          <Card :class="`${item.bgcolor} w-full border-none rounded-xl shadow-md hover:shadow-lg transition-all duration-300 group-hover:scale-105`">
+            <div class="text-center py-2">
+              <div class="flex justify-center mb-3">
                 <img
                   :src="item.img"
                   width="50"
                   height="50"
-                  class="mb-3"
+                  class="mb-0"
                   alt="card-image"
                 />
               </div>
-              <p :class="`font-semibold ${item.textclr} mb-1`">{{ item.title }}</p>
-              <h5 :class="`text-lg font-semibold ${item.textclr} mb-0`">{{ item.desc }}</h5>
+              <p :class="`text-xs font-medium ${item.textclr} mb-2 opacity-75 uppercase tracking-wide`">{{ item.title }}</p>
+              <h5 :class="`text-2xl font-bold ${item.textclr} mb-0`">{{ item.desc }}</h5>
             </div>
           </Card>
-          
         </Link>
       </SwiperSlide>
     </Swiper>

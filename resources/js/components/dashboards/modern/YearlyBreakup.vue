@@ -60,31 +60,29 @@ const series = ref([38, 40, 25])
     <div class="grid grid-cols-12 ">
       <!-- Left portion -->
       <div class="lg:col-span-6 md:col-span-6 col-span-8">
-        <h5 class="card-title mb-4 lg:whitespace-nowrap">Yearly Breakup</h5>
-        <h4 class="text-xl mb-3">
-          $36358
-
-
-        </h4>
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 lg:whitespace-nowrap">Yearly Breakup</h3>
+        <p class="text-3xl font-bold text-red-600 dark:text-red-400 mb-3">
+          $36,358
+        </p>
         <div class="flex items-center mb-3 gap-2">
-          <span class="rounded-full p-1 bg-lightsuccess dark:bg-darksuccess flex items-center justify-center">
-            <Icon icon="tabler:arrow-up-left" class="text-success" />
+          <span class="rounded-full p-1 bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+            <Icon icon="tabler:arrow-up-left" class="text-green-600 dark:text-green-400 w-4 h-4" />
           </span>
-          <p class="text-dark dark:text-darklink mb-0">+9%</p>
-          <p class="dark:text-darklink mb-0">last year</p>
+          <p class="text-sm font-semibold text-green-600 dark:text-green-400 mb-0">+9%</p>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mb-0">last year</p>
         </div>
-        <div class="flex gap-4 items-center mt-4">
-          <div class="flex items-center">
-            <Icon icon="tabler:point-filled" class="text-primary text-xl me-1" />
-            <span class="text-xs dark:text-darklink">2023</span>
+        <div class="flex gap-4 items-center mt-6">
+          <div class="flex items-center gap-2">
+            <Icon icon="tabler:point-filled" class="text-red-600 dark:text-red-400 w-3 h-3" />
+            <span class="text-xs font-medium text-gray-600 dark:text-gray-400">2023</span>
           </div>
-          <div class="flex items-center">
-            <Icon icon="tabler:point-filled" class="text-secondary text-xl me-1" />
-            <span class="text-xs dark:text-darklink">2024</span>
+          <div class="flex items-center gap-2">
+            <Icon icon="tabler:point-filled" class="text-blue-600 dark:text-blue-400 w-3 h-3" />
+            <span class="text-xs font-medium text-gray-600 dark:text-gray-400">2024</span>
           </div>
-          <div class="flex items-center">
-            <Icon icon="tabler:point-filled" class="text-lightprimary text-xl me-1" />
-            <span class="text-xs dark:text-darklink">2025</span>
+          <div class="flex items-center gap-2">
+            <Icon icon="tabler:point-filled" class="text-purple-600 dark:text-purple-400 w-3 h-3" />
+            <span class="text-xs font-medium text-gray-600 dark:text-gray-400">2025</span>
           </div>
         </div>
       </div>

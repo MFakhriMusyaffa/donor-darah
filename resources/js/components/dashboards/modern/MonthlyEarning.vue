@@ -65,36 +65,36 @@ const chartOptions = ref<ApexOptions>({
 
 
 <template>
-  <Card class="p-0 h-full">
+  <Card class="p-0 h-full border border-gray-200 dark:border-gray-700 shadow-md rounded-xl overflow-hidden">
     <div class="p-6">
       <div class="grid grid-cols-12 gap-6">
         <div class="lg:col-span-8 md:col-span-8 col-span-8">
-          <h5 class="card-title mb-4">Monthly Earnings</h5>
-          <h4 class="text-xl mb-3">
-            $6820 
-          </h4>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Monthly Earnings</h3>
+          <p class="text-3xl font-bold text-red-600 dark:text-red-400 mb-3">
+            $6,820
+          </p>
           <div class="flex items-center mb-3 gap-2">
             <span
-              class="rounded-full p-1 bg-lighterror dark:bg-darkerror flex items-center justify-center"
+              class="rounded-full p-1 bg-red-100 dark:bg-red-900/30 flex items-center justify-center"
             >
-              <Icon icon="tabler:arrow-down-right" class="text-error" />
+              <Icon icon="tabler:arrow-down-right" class="text-red-600 dark:text-red-400 w-4 h-4" />
             </span>
-            <p class="text-dark dark:text-darklink mb-0">+9%</p>
-            <p class="dark:text-darklink mb-0">last year</p>
+            <p class="text-sm font-semibold text-red-600 dark:text-red-400 mb-0">+9%</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-0">last year</p>
           </div>
         </div>
         <div class="lg:col-span-4 md:col-span-4 col-span-4">
           <div class="flex justify-end">
             <div
-              class="text-white bg-secondary rounded-full h-11 w-11 flex items-center justify-center"
+              class="text-white bg-red-600 dark:bg-red-500 rounded-full h-12 w-12 flex items-center justify-center shadow-md"
             >
-              <Icon icon="tabler:currency-dollar" class="text-xl" />
+              <Icon icon="tabler:currency-dollar" class="w-6 h-6" />
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div>
+    <div class="border-t border-gray-200 dark:border-gray-700">
       <VueApexCharts
         height="60"
         width="100%"
