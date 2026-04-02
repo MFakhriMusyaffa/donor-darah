@@ -1,5 +1,45 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
+import { reactive } from 'vue';
+
+const form = reactive({
+    title: '',
+    content: '',
+    publish_date: '',
+    thumbnail: null as File | null,
+});
+
+const handleFile = (e: Event) => {
+    const target = e.target as HTMLInputElement;
+
+    if (target.files && target.files[0]) {
+        form.thumbnail = target.files[0];
+    }
+};
+
+const submit = async () => {
+    if (!form.title || !form.content || !form.publish_date) {
+        alert('Semua field wajib diisi!');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('title', form.title);
+    formData.append('content', form.content);
+    formData.append('publish_date', form.publish_date);
+
+    if (form.thumbnail) {
+        formData.append('thumbnail', form.thumbnail);
+    }
+
+    await fetch('/api/berita', {
+        method: 'POST',
+        body: formData,
+    });
+
+    alert('Berhasil ditambahkan!');
+    window.location.href = '/admin/berita';
+};
 </script>
 
 <template>
@@ -14,14 +54,15 @@ import { Head } from '@inertiajs/vue3';
                 </p>
             </div>
 
-            <form class="space-y-6">
+            <form @submit.prevent="submit" class="space-y-6">
                 <div>
                     <label class="block text-sm font-medium text-gray-700">
                         Judul
                     </label>
                     <input
                         type="text"
-                        class="mt-1 w-full rounded-lg border p-2 focus:border-red-500 focus:ring focus:ring-red-200"
+                        v-model="form.title"
+                        class="mt-1 w-full rounded-lg border p-2 ..."
                         placeholder="Masukkan Judul Berita"
                     />
                 </div>
@@ -31,8 +72,9 @@ import { Head } from '@inertiajs/vue3';
                         Content
                     </label>
                     <textarea
+                        v-model="form.content"
                         rows="4"
-                        class="mt-1 w-full rounded-lg border p-2 focus:border-red-500 focus:ring focus:ring-red-200"
+                        class="mt-1 w-full rounded-lg border p-2 ..."
                         placeholder="Deskripsi Content"
                     ></textarea>
                 </div>
@@ -43,7 +85,8 @@ import { Head } from '@inertiajs/vue3';
                     </label>
                     <input
                         type="date"
-                        class="mt-1 w-full rounded-lg border p-2 focus:border-red-500 focus:ring focus:ring-red-200"
+                        v-model="form.publish_date"
+                        class="mt-1 w-full rounded-lg border p-2 ..."
                     />
                 </div>
 
@@ -51,7 +94,11 @@ import { Head } from '@inertiajs/vue3';
                     <label class="block text-sm font-medium text-gray-700">
                         Thumbnail
                     </label>
-                    <input type="file" class="mt-1 w-full" />
+                    <input
+                        type="file"
+                        @change="handleFile"
+                        class="mt-1 w-full"
+                    />
                 </div>
 
                 <button
