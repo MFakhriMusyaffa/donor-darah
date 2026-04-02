@@ -30,7 +30,7 @@ Route::middleware(['auth','role:admin'])->group(function () {
     })->name('admin.dashboard');
 });
 
-Route::middleware(['auth','role:masyarakat'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return inertia('Dashboard');
     })->name('dashboard');

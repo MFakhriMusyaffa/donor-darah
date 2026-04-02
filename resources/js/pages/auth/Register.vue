@@ -13,6 +13,8 @@ import { store } from '@/routes/register';
 
 // --- Logika Dark/Light Mode ---
 const isDark = ref(false);
+const showPassword = ref(false);
+const showConfirmPassword = ref(false);
 
 const toggleTheme = () => {
     isDark.value = !isDark.value;
@@ -49,7 +51,7 @@ onMounted(() => {
     >
         <button
             @click="toggleTheme"
-            class="absolute top-6 left-6 z-50 rounded-full bg-white/80 p-2.5 text-slate-600 shadow-sm backdrop-blur-sm transition-all duration-200 hover:bg-slate-100 focus:ring-2 focus:ring-indigo-500 focus:outline-none dark:bg-zinc-800/80 dark:text-slate-300 dark:hover:bg-zinc-700"
+            class="absolute top-6 left-6 z-50 rounded-full bg-white/80 p-2.5 text-slate-600 shadow-sm backdrop-blur-sm transition-all duration-200 hover:bg-slate-100 focus:ring-2 focus:ring-red-500 focus:outline-none dark:bg-zinc-800/80 dark:text-slate-300 dark:hover:bg-zinc-700"
             aria-label="Toggle Dark Mode"
         >
             <svg
@@ -83,17 +85,17 @@ onMounted(() => {
         </button>
 
         <div
-            class="relative hidden w-1/2 items-center justify-center overflow-hidden bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 p-12 lg:flex dark:from-indigo-950/40 dark:via-purple-900/40 dark:to-zinc-950"
+            class="relative hidden w-1/2 items-center justify-center overflow-hidden bg-gradient-to-br from-red-50 via-rose-50 to-white p-12 lg:flex dark:from-red-950/30 dark:via-rose-900/20 dark:to-zinc-950"
         >
             <div
-                class="absolute h-[600px] w-[600px] rounded-full border border-indigo-200/50 dark:border-indigo-500/10"
+                class="absolute h-[600px] w-[600px] rounded-full border border-red-200/50 dark:border-red-500/10"
             ></div>
             <div
-                class="absolute h-[400px] w-[400px] rounded-full border border-purple-200/50 dark:border-purple-500/10"
+                class="absolute h-[400px] w-[400px] rounded-full border border-rose-200/50 dark:border-rose-500/10"
             ></div>
 
             <img
-                src="/images/dashboard-mockup.png"
+                src="@/assets/images/backgrounds/Register.png"
                 alt="Dashboard Preview"
                 class="relative z-10 w-full max-w-2xl rounded-xl border border-white/50 object-contain shadow-2xl dark:border-zinc-800"
             />
@@ -156,7 +158,7 @@ onMounted(() => {
                             autocomplete="name"
                             name="name"
                             placeholder="Enter your username"
-                            class="w-full rounded-lg border-slate-300 py-2.5 text-slate-900 shadow-sm focus-visible:ring-indigo-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white dark:focus-visible:ring-indigo-500"
+                            class="w-full rounded-lg border-slate-300 py-2.5 text-slate-900 shadow-sm focus-visible:ring-red-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white dark:focus-visible:ring-red-500"
                         />
                         <InputError :message="errors.name" />
                     </div>
@@ -177,7 +179,7 @@ onMounted(() => {
                             autocomplete="email"
                             name="email"
                             placeholder="Enter your email address"
-                            class="w-full rounded-lg border-slate-300 py-2.5 text-slate-900 shadow-sm focus-visible:ring-indigo-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white dark:focus-visible:ring-indigo-500"
+                            class="w-full rounded-lg border-slate-300 py-2.5 text-slate-900 shadow-sm focus-visible:ring-red-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white dark:focus-visible:ring-red-500"
                         />
                         <InputError :message="errors.email" />
                     </div>
@@ -191,18 +193,40 @@ onMounted(() => {
                         <div class="relative">
                             <Input
                                 id="password"
-                                type="password"
+                                :type="showPassword ? 'text' : 'password'"
                                 required
                                 :tabindex="3"
                                 autocomplete="new-password"
                                 name="password"
                                 placeholder="••••••••"
-                                class="w-full rounded-lg border-slate-300 py-2.5 pr-10 text-slate-900 shadow-sm focus-visible:ring-indigo-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white dark:focus-visible:ring-indigo-500"
+                                class="w-full rounded-lg border-slate-300 py-2.5 pr-10 text-slate-900 shadow-sm focus-visible:ring-red-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white dark:focus-visible:ring-red-500"
                             />
                             <div
+                                @click="showPassword = !showPassword"
                                 class="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-slate-400"
                             >
                                 <svg
+                                    v-if="showPassword"
+                                    class="h-5 w-5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                    ></path>
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                    ></path>
+                                </svg>
+                                <svg
+                                    v-else
                                     class="h-5 w-5"
                                     fill="none"
                                     stroke="currentColor"
@@ -231,18 +255,44 @@ onMounted(() => {
                         <div class="relative">
                             <Input
                                 id="password_confirmation"
-                                type="password"
+                                :type="
+                                    showConfirmPassword ? 'text' : 'password'
+                                "
                                 required
                                 :tabindex="4"
                                 autocomplete="new-password"
                                 name="password_confirmation"
                                 placeholder="••••••••"
-                                class="w-full rounded-lg border-slate-300 py-2.5 pr-10 text-slate-900 shadow-sm focus-visible:ring-indigo-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white dark:focus-visible:ring-indigo-500"
+                                class="w-full rounded-lg border-slate-300 py-2.5 pr-10 text-slate-900 shadow-sm focus-visible:ring-red-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white dark:focus-visible:ring-red-500"
                             />
                             <div
+                                @click="
+                                    showConfirmPassword = !showConfirmPassword
+                                "
                                 class="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-slate-400"
                             >
                                 <svg
+                                    v-if="showConfirmPassword"
+                                    class="h-5 w-5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                    ></path>
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                    ></path>
+                                </svg>
+                                <svg
+                                    v-else
                                     class="h-5 w-5"
                                     fill="none"
                                     stroke="currentColor"
@@ -265,7 +315,7 @@ onMounted(() => {
                             id="terms"
                             required
                             :tabindex="5"
-                            class="border-slate-300 data-[state=checked]:bg-indigo-600"
+                            class="border-slate-300 data-[state=checked]:bg-red-600 dark:border-zinc-700"
                         />
                         <Label
                             for="terms"
@@ -274,7 +324,7 @@ onMounted(() => {
                             I agree to
                             <a
                                 href="#"
-                                class="text-indigo-600 hover:underline dark:text-indigo-400"
+                                class="text-red-600 hover:underline dark:text-red-500"
                                 >privacy policy & terms?</a
                             >
                         </Label>
@@ -282,7 +332,7 @@ onMounted(() => {
 
                     <Button
                         type="submit"
-                        class="mt-2 w-full rounded-lg bg-indigo-600 py-6 text-base font-medium text-white shadow-sm transition-all duration-200 hover:bg-indigo-700 active:scale-[0.98]"
+                        class="mt-2 w-full rounded-lg bg-red-600 py-6 text-base font-medium text-white shadow-sm transition-all duration-200 hover:bg-red-700 active:scale-[0.98]"
                         :tabindex="6"
                         :disabled="processing"
                         data-test="register-user-button"
@@ -300,7 +350,7 @@ onMounted(() => {
                         Already have an account?
                         <TextLink
                             :href="login()"
-                            class="font-medium text-indigo-600 hover:underline dark:text-indigo-400"
+                            class="font-medium text-red-600 hover:underline dark:text-red-500"
                             :tabindex="7"
                         >
                             Sign in instead
