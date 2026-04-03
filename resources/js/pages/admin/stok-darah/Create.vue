@@ -3,23 +3,30 @@ import { Head } from '@inertiajs/vue3';
 import { reactive } from 'vue';
 
 const form = reactive({
-    golongan: '',
+    golongan_darah: '',
     rhesus: '',
-    jumlah: 0,
+    jumlah_kantong: 0,
 });
 
-const submit = () => {
-    if (!form.golongan || !form.rhesus || form.jumlah <= 0) {
+const submit = async () => {
+    if (!form.golongan_darah || !form.rhesus || form.jumlah_kantong <= 0) {
         alert('Semua field harus diisi!');
         return;
     }
 
-    console.log(form);
+    await fetch('/api/stok-darah', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form),
+    });
+
     alert('Stok Darah Berhasil ditambahkan');
 
-    form.golongan = '';
+    form.golongan_darah = '';
     form.rhesus = '';
-    form.jumlah = 0;
+    form.jumlah_kantong = 0;
 };
 </script>
 
@@ -40,7 +47,7 @@ const submit = () => {
                         Golongan Darah
                     </label>
                     <select
-                        v-model="form.golongan"
+                        v-model="form.golongan_darah"
                         class="mt-1 w-full rounded-lg border p-2"
                     >
                         <option value="">-- Pilih Golongan --</option>
@@ -71,7 +78,7 @@ const submit = () => {
                     </label>
                     <input
                         type="number"
-                        v-model="form.jumlah"
+                        v-model="form.jumlah_kantong"
                         class="mt-1 w-full rounded-lg border p-2"
                     />
                 </div>

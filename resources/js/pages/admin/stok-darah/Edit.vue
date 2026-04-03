@@ -1,24 +1,52 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
-import { reactive } from 'vue';
+import { reactive, onMounted } from 'vue';
 
-// dummy data berdasarkan id
-const dummyData: any = {
-    1: { golongan: 'A', rhesus: '+', jumlah: 20 },
-    2: { golongan: 'B', rhesus: '-', jumlah: 15 },
-    3: { golongan: 'O', rhesus: '+', jumlah: 30 },
+const form = reactive({
+    id: null as number | null,
+    golongan_darah: '',
+    rhesus: '',
+    jumlah_kantong: 0,
+});
+
+// ambil ID dari URL
+const getId = () => {
+    const path = window.location.pathname;
+    return path.split('/').pop();
 };
 
-// ambil id dari URL
-const path = window.location.pathname;
-const id = path.split('/').pop() as keyof typeof dummyData;
+// fetch data dari API
+const fetchData = async () => {
+    const id = getId();
+    const res = await fetch(`/api/stok-darah/${id}`);
+    const data = await res.json();
 
-// form dari dummy
-const form = reactive({
-    golongan: dummyData[id]?.golongan || '',
-    rhesus: dummyData[id]?.rhesus || '',
-    jumlah: dummyData[id]?.jumlah || 0,
-});
+    form.id = data.id;
+    form.golongan_darah = data.golongan_darah;
+    form.rhesus = data.rhesus;
+    form.jumlah_kantong = data.jumlah_kantong;
+};
+
+onMounted(fetchData);
+
+// SUBMIT UPDATE
+const submit = async () => {
+    if (!form.golongan_darah || !form.rhesus || form.jumlah_kantong <= 0) {
+        alert('Semua field harus diisi!');
+        return;
+    }
+
+    await fetch(`/api/stok-darah/${form.id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form),
+    });
+
+    alert('Data berhasil diupdate!');
+    window.location.href = '/admin/stok-darah';
+};
 </script>
 
 <template>
@@ -33,14 +61,14 @@ const form = reactive({
                 Perbarui informasi Stok Darah yang akan ditampilkan
             </p>
 
-            <form class="space-y-6">
+            <form @submit.prevent="submit" class="space-y-6">
                 <!-- Golongan -->
                 <div>
                     <label class="block text-sm font-medium"
                         >Golongan Darah</label
                     >
                     <select
-                        v-model="form.golongan"
+                        v-model="form.golongan_darah"
                         class="mt-1 w-full rounded-lg border p-2"
                     >
                         <option>A</option>
@@ -69,7 +97,7 @@ const form = reactive({
                     >
                     <input
                         type="number"
-                        v-model="form.jumlah"
+                        v-model="form.jumlah_kantong"
                         class="mt-1 w-full rounded-lg border p-2"
                     />
                 </div>

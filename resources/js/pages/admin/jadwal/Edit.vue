@@ -1,41 +1,49 @@
 <script setup lang="ts">
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
+import { reactive, onMounted } from 'vue';
 
-const props = defineProps({
-    jadwal: Object,
+const form = reactive({
+    id: null as number | null,
+    event_name: '',
+    start_event: '',
+    end_event: '',
+    location: '',
+    detail: '',
 });
 
-const form = useForm({
-    event_name: props.jadwal?.event_name ?? '',
-    start_event: props.jadwal?.start_event ?? '',
-    end_event: props.jadwal?.end_event ?? '',
-    location: props.jadwal?.location ?? '',
-    detail: props.jadwal?.detail ?? '',
-});
+const getId = () => {
+    const path = window.location.pathname;
+    return path.split('/').pop();
+};
 
-const submit = () => {
-    if (!props.jadwal) {
-        alert('Data tidak ditemukan');
-        return;
-    }
+const fetchData = async () => {
+    const id = getId();
+    const res = await fetch(`/api/jadwal-kegiatan/${id}`);
+    const result = await res.json();
 
-    if (
-        !form.event_name ||
-        !form.start_event ||
-        !form.end_event ||
-        !form.location ||
-        !form.detail
-    ) {
-        alert('Semua field wajib diisi!');
-        return;
-    }
+    const data = result.data; // 🔥 penting!
 
-    if (form.end_event < form.start_event) {
-        alert('Tanggal selesai tidak boleh sebelum tanggal mulai!');
-        return;
-    }
+    form.id = data.id;
+    form.event_name = data.event_name;
+    form.start_event = data.start_event;
+    form.end_event = data.end_event;
+    form.location = data.location;
+    form.detail = data.detail;
+};
 
-    form.put(`/admin/jadwal/${props.jadwal.id}`);
+onMounted(fetchData);
+
+const submit = async () => {
+    await fetch(`/api/jadwal-kegiatan/${form.id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form),
+    });
+
+    alert('Berhasil diupdate!');
+    window.location.href = '/admin/jadwal';
 };
 </script>
 
@@ -51,6 +59,9 @@ const submit = () => {
                 Perbarui informasi Jadwal Kegiatan yang akan ditampilkan
             </p>
 
+            <p class="mb-4 text-center text-sm text-gray-500">
+                Sedang mengedit: <b>{{ form.event_name }}</b>
+            </p>
             <form @submit.prevent="submit" class="space-y-6">
                 <div class="grid grid-cols-2 gap-6">
                     <div>

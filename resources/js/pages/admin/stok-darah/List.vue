@@ -1,21 +1,46 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
+import { ref, onMounted } from 'vue';
 
-// data dummy yezz
-import { ref } from 'vue';
+const showModal = ref(false);
+const selectedId = ref<number | null>(null);
 
-const stok = ref([
-    { id: 1, golongan: 'A', rhesus: '+', jumlah: 20 },
-    { id: 2, golongan: 'B', rhesus: '-', jumlah: 15 },
-    { id: 3, golongan: 'O', rhesus: '+', jumlah: 30 },
-]);
+interface StokDarah {
+    id: number;
+    golongan_darah: string;
+    rhesus: string;
+    jumlah_kantong: number;
+}
 
-const handleDelete = (id: number) => {
-    if (!confirm('Yakin mau hapus data ini?')) return;
+const stok = ref<StokDarah[]>([]);
 
-    stok.value = stok.value.filter((item) => item.id !== id);
+const fetchData = async () => {
+    const res = await fetch('/api/stok-darah');
+    const data = await res.json();
+    stok.value = data;
+};
 
-    alert('Data berhasil dihapus');
+onMounted(fetchData);
+
+const openModal = (id: number) => {
+    selectedId.value = id;
+    showModal.value = true;
+};
+
+const closeModal = () => {
+    showModal.value = false;
+    selectedId.value = null;
+};
+
+const confirmDelete = async () => {
+    if (!selectedId.value) return;
+
+    await fetch(`/api/stok-darah/${selectedId.value}`, {
+        method: 'DELETE',
+    });
+
+    closeModal();
+    fetchData();
 };
 </script>
 
@@ -50,13 +75,13 @@ const handleDelete = (id: number) => {
                 <tbody>
                     <tr v-for="item in stok" :key="item.id">
                         <td class="border p-2 text-center">
-                            {{ item.golongan }}
+                            {{ item.golongan_darah }}
                         </td>
                         <td class="border p-2 text-center">
                             {{ item.rhesus }}
                         </td>
                         <td class="border p-2 text-center">
-                            {{ item.jumlah }}
+                            {{ item.jumlah_kantong }}
                         </td>
 
                         <td class="border p-2 text-center">
@@ -69,7 +94,7 @@ const handleDelete = (id: number) => {
                                 </a>
 
                                 <button
-                                    @click="handleDelete(item.id)"
+                                    @click="openModal(item.id)"
                                     class="rounded bg-red-500 px-3 py-1 text-white hover:bg-red-600"
                                 >
                                     Hapus
@@ -79,6 +104,38 @@ const handleDelete = (id: number) => {
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+    <div
+        v-if="showModal"
+        class="fixed inset-0 flex items-center justify-center bg-black/30"
+    >
+        <div
+            class="w-full max-w-sm scale-95 rounded-xl bg-white p-6 shadow-lg transition-all duration-200"
+        >
+            <h2 class="mb-4 text-lg font-bold text-gray-800">
+                Konfirmasi Hapus
+            </h2>
+
+            <p class="mb-6 text-sm text-gray-600">
+                Yakin mau hapus data ini? Data tidak bisa dikembalikan.
+            </p>
+
+            <div class="flex justify-end gap-3">
+                <button
+                    @click="closeModal"
+                    class="rounded-lg border px-4 py-2 text-gray-600 hover:bg-gray-100"
+                >
+                    Batal
+                </button>
+
+                <button
+                    @click="confirmDelete"
+                    class="rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+                >
+                    Hapus
+                </button>
+            </div>
         </div>
     </div>
 </template>
