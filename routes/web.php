@@ -11,15 +11,6 @@ Route::inertia('/', 'Welcome', [
     'canRegister' => Features::enabled(Features::registration()),
 ])->name('home');
 
-/* ROUTE AUTH PAGES */
-// Route::get('/login', function () {
-//     return inertia('auth/Login', [
-//         'canResetPassword' => true,
-//         'canRegister' => true,
-//     ]);
-// })->name('login');
-// Route::inertia('/register', 'auth/Register')->name('register');
-
 Route::get('/login', function () {
     return inertia('auth/Login', [
         'canResetPassword' => true,
@@ -61,6 +52,37 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return inertia('Dashboard');
     })->name('dashboard');
+
+    Route::get('/stok-darah', function () {
+        return inertia('masyarakat/StokDarah', [
+            'stokDarah' => StokDarah::select('id', 'golongan_darah', 'rhesus', 'jumlah_kantong')
+                ->orderBy('golongan_darah')
+                ->get(),
+        ]);
+    })->name('stok-darah');
+
+    Route::get('/jadwal', function () {
+        return inertia('masyarakat/JadwalKegiatan', [
+            'jadwal' => JadwalKegiatan::select('id', 'event_name', 'start_event', 'location', 'detail')
+                ->orderBy('start_event', 'asc')
+                ->get(),
+        ]);
+    })->name('jadwal');
+
+    Route::get('/berita', function () {
+        return inertia('masyarakat/berita/Berita', [
+            'berita' => Berita::select('id', 'title', 'publish_date','thumbnail', 'content')
+                ->orderByDesc('publish_date')
+                ->get(),
+        ]);
+    })->name('berita');
+    
+    Route::get('/berita/{id}', function ($id) {
+        $berita = Berita::findOrFail($id); 
+        return inertia('masyarakat/berita/DetailBerita', [
+            'berita' => $berita
+        ]);
+    })->name('berita.show');
 });
 
 Route::middleware(['auth','role:admin'])->group(function () {

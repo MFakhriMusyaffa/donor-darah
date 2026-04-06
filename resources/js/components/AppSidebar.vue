@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, FolderGit2, LayoutGrid, Calendar, Droplet } from 'lucide-vue-next';
+import {
+    BookOpen,
+    FolderGit2,
+    LayoutGrid,
+    Calendar,
+    Droplet,
+} from 'lucide-vue-next';
 import AppLogo from '@/components/AppLogo.vue';
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
@@ -25,17 +31,17 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Stok Darah',
-        href: '/admin/stok-darah',
+        href: '/stok-darah',
         icon: Droplet,
     },
     {
         title: 'Jadwal Kegiatan',
-        href: '/admin/jadwal',
+        href: '/jadwal',
         icon: Calendar,
     },
     {
         title: 'Berita',
-        href: '/admin/berita',
+        href: '/berita',
         icon: BookOpen,
     },
 ];
@@ -62,7 +68,10 @@ const footerNavItems: NavItem[] = [];
         </SidebarContent>
 
         <SidebarFooter>
-            <NavFooter v-if="footerNavItems.length > 0" :items="footerNavItems" />
+            <NavFooter
+                v-if="footerNavItems.length > 0"
+                :items="footerNavItems"
+            />
             <NavUser />
         </SidebarFooter>
     </Sidebar>

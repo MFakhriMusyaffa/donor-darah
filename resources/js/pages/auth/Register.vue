@@ -141,7 +141,7 @@ onMounted(() => {
                     v-bind="store.form()"
                     :reset-on-success="['password', 'password_confirmation']"
                     v-slot="{ errors, processing }"
-                    class="flex flex-grow flex-col gap-5"
+                    class="flex grow flex-col gap-5"
                 >
                     <div class="grid gap-1.5">
                         <Label
@@ -359,14 +359,14 @@ onMounted(() => {
 
                     <div class="my-4 flex items-center">
                         <div
-                            class="flex-grow border-t border-slate-200 dark:border-zinc-800"
+                            class="grow border-t border-slate-200 dark:border-zinc-800"
                         ></div>
                         <span
                             class="px-4 text-xs text-slate-400 dark:text-zinc-500"
                             >or</span
                         >
                         <div
-                            class="flex-grow border-t border-slate-200 dark:border-zinc-800"
+                            class="grow border-t border-slate-200 dark:border-zinc-800"
                         ></div>
                     </div>
 

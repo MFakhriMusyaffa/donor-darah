@@ -26,9 +26,17 @@ class BeritaController extends Controller
     // CREATE
     public function store(Request $request)
 {
-    $berita = Berita::create(
-        $request->only(['title','content','publish_date','thumbnail'])
-    );
+        $data = $request->only(['title', 'content', 'publish_date']);
+
+        // Cek apakah ada file gambar yang diupload
+        if ($request->hasFile('thumbnail')) {
+            // Simpan gambar ke folder 'storage/app/public/berita'
+            // dan simpan nama jalurnya (path) ke variabel data
+            $path = $request->file('thumbnail')->store('berita', 'public');
+            $data['thumbnail'] = $path;
+        }
+
+        $berita = Berita::create($data);
 
     return response()->json($berita, 201);
 }
@@ -37,10 +45,16 @@ class BeritaController extends Controller
     public function update(Request $request, $id)
     {
         $berita = Berita::findOrFail($id);
+        
+        $data = $request->only(['title', 'content', 'publish_date']);
 
-        $berita->update(
-    $request->only(['title','content','publish_date','thumbnail'])
-);
+        // Cek apakah admin mengupload gambar baru
+        if ($request->hasFile('thumbnail')) {
+            $path = $request->file('thumbnail')->store('berita', 'public');
+            $data['thumbnail'] = $path;
+        }
+
+        $berita->update($data);
 
         return response()->json($berita);
     }
