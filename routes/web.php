@@ -7,9 +7,9 @@ use App\Models\JadwalKegiatan;
 use App\Models\StokDarah;
 use App\Models\User;
 
-Route::inertia('/', 'Welcome', [
-    'canRegister' => Features::enabled(Features::registration()),
-])->name('home');
+// Route::inertia('/', 'Welcome', [
+//     'canRegister' => Features::enabled(Features::registration()),
+// ])->name('home');
 
 Route::get('/login', function () {
     return inertia('auth/Login', [
@@ -151,7 +151,7 @@ Route::get('/', function () {
         } elseif ($user->role === 'masyarakat') {
             return redirect('/dashboard');
         }
-        return redirect('/dashboard'); // fallback
+        return redirect('/dashboard'); 
     }
     return redirect('/login');
 })->name('home');
