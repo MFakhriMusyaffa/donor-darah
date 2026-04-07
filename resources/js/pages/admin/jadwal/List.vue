@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
 import { ref, onMounted } from 'vue';
+import AdminLayout from '@/layouts/AdminLayout.vue';
 
 interface Jadwal {
     id: number;
@@ -49,7 +50,7 @@ const confirmDelete = async () => {
 <template>
     <Head title="Jadwal Kegiatan" />
 
-    <div class="min-h-screen bg-gray-100 p-10">
+    <AdminLayout>
         <div class="mx-auto max-w-6xl rounded-xl bg-white p-8 shadow-md">
             <div class="mb-6 flex items-center justify-between">
                 <h1 class="text-2xl font-bold text-red-600">
@@ -113,35 +114,36 @@ const confirmDelete = async () => {
                 </tbody>
             </table>
         </div>
-    </div>
-    <div
-        v-if="showModal"
-        class="fixed inset-0 flex items-center justify-center bg-black/30"
-    >
-        <div class="w-full max-w-sm rounded-xl bg-white p-6 shadow-lg">
-            <h2 class="mb-4 text-lg font-bold text-gray-800">
-                Konfirmasi Hapus
-            </h2>
 
-            <p class="mb-6 text-sm text-gray-600">
-                Yakin mau hapus data ini? Data tidak bisa dikembalikan.
-            </p>
+        <div
+            v-if="showModal"
+            class="fixed inset-0 flex items-center justify-center bg-black/30"
+        >
+            <div class="w-full max-w-sm rounded-xl bg-white p-6 shadow-lg">
+                <h2 class="mb-4 text-lg font-bold text-gray-800">
+                    Konfirmasi Hapus
+                </h2>
 
-            <div class="flex justify-end gap-3">
-                <button
-                    @click="closeModal"
-                    class="rounded-lg border px-4 py-2 text-gray-600 hover:bg-gray-100"
-                >
-                    Batal
-                </button>
+                <p class="mb-6 text-sm text-gray-600">
+                    Yakin mau hapus data ini? Data tidak bisa dikembalikan.
+                </p>
 
-                <button
-                    @click="confirmDelete"
-                    class="rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700"
-                >
-                    Hapus
-                </button>
+                <div class="flex justify-end gap-3">
+                    <button
+                        @click="closeModal"
+                        class="rounded-lg border px-4 py-2 text-gray-600 hover:bg-gray-100"
+                    >
+                        Batal
+                    </button>
+
+                    <button
+                        @click="confirmDelete"
+                        class="rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+                    >
+                        Hapus
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
+    </AdminLayout>
 </template>
