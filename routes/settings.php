@@ -5,6 +5,13 @@ use App\Http\Controllers\Settings\ProfileController;
 use App\Http\Controllers\Settings\TwoFactorAuthenticationController;
 use Illuminate\Support\Facades\Route;
 
+// Admin Profile Route
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('admin/profile', function () {
+        return inertia('admin/Profile');
+    })->name('admin.profile.edit');
+});
+
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', '/settings/profile');
 

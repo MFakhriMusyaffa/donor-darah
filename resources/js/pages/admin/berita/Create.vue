@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
+import AdminLayout from '@/components/AdminLayout.vue';
 import { reactive } from 'vue';
 
 const form = reactive({
@@ -45,69 +46,71 @@ const submit = async () => {
 <template>
     <Head title="Tambah Berita" />
 
-    <div class="flex min-h-screen items-center justify-center bg-gray-100">
-        <div class="w-full max-w-3xl rounded-xl bg-white p-8 shadow-md">
-            <div class="mb-8 text-center">
-                <h1 class="text-2xl font-bold text-red-600">Tambah Berita</h1>
-                <p class="text-sm text-gray-500">
-                    Isi form di bawah untuk menambahkan berita baru
-                </p>
+    <AdminLayout title="Berita">
+        <div class="flex min-h-screen items-center justify-center">
+            <div class="w-full max-w-3xl rounded-xl bg-white p-8 shadow-md">
+                <div class="mb-8 text-center">
+                    <h1 class="text-2xl font-bold text-red-600">Tambah Berita</h1>
+                    <p class="text-sm text-gray-500">
+                        Isi form di bawah untuk menambahkan berita baru
+                    </p>
+                </div>
+
+                <form @submit.prevent="submit" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">
+                            Judul
+                        </label>
+                        <input
+                            type="text"
+                            v-model="form.title"
+                            class="mt-1 w-full rounded-lg border p-2 ..."
+                            placeholder="Masukkan Judul Berita"
+                        />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">
+                            Content
+                        </label>
+                        <textarea
+                            v-model="form.content"
+                            rows="4"
+                            class="mt-1 w-full rounded-lg border p-2 ..."
+                            placeholder="Deskripsi Content"
+                        ></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">
+                            Tanggal Publish
+                        </label>
+                        <input
+                            type="date"
+                            v-model="form.publish_date"
+                            class="mt-1 w-full rounded-lg border p-2 ..."
+                        />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">
+                            Thumbnail
+                        </label>
+                        <input
+                            type="file"
+                            @change="handleFile"
+                            class="mt-1 w-full"
+                        />
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="w-full rounded-lg bg-red-600 py-2 text-white transition hover:bg-red-700"
+                    >
+                        Simpan Berita
+                    </button>
+                </form>
             </div>
-
-            <form @submit.prevent="submit" class="space-y-6">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">
-                        Judul
-                    </label>
-                    <input
-                        type="text"
-                        v-model="form.title"
-                        class="mt-1 w-full rounded-lg border p-2 ..."
-                        placeholder="Masukkan Judul Berita"
-                    />
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">
-                        Content
-                    </label>
-                    <textarea
-                        v-model="form.content"
-                        rows="4"
-                        class="mt-1 w-full rounded-lg border p-2 ..."
-                        placeholder="Deskripsi Content"
-                    ></textarea>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">
-                        Tanggal Publish
-                    </label>
-                    <input
-                        type="date"
-                        v-model="form.publish_date"
-                        class="mt-1 w-full rounded-lg border p-2 ..."
-                    />
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">
-                        Thumbnail
-                    </label>
-                    <input
-                        type="file"
-                        @change="handleFile"
-                        class="mt-1 w-full"
-                    />
-                </div>
-
-                <button
-                    type="submit"
-                    class="w-full rounded-lg bg-red-600 py-2 text-white transition hover:bg-red-700"
-                >
-                    Simpan Berita
-                </button>
-            </form>
         </div>
-    </div>
+    </AdminLayout>
 </template>
