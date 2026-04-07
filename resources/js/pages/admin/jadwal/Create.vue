@@ -55,7 +55,7 @@ const submit = async () => {
             </p>
 
             <form @submit.prevent="submit" class="space-y-6">
-                <div class="grid grid-cols-2 gap-6">
+                <div class="grid grid-cols-2 gap-6 text-gray-800">
                     <div>
                         <label class="block text-sm font-medium text-gray-700">
                             Nama Kegiatan
@@ -81,7 +81,7 @@ const submit = async () => {
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-6">
+                <div class="grid grid-cols-2 gap-6 text-gray-800">
                     <div>
                         <label class="block text-sm font-medium text-gray-700">
                             Tanggal Mulai
@@ -112,7 +112,7 @@ const submit = async () => {
                     <textarea
                         v-model="form.detail"
                         rows="4"
-                        class="mt-1 w-full rounded-lg border p-2 focus:ring-2 focus:ring-red-500"
+                        class="mt-1 w-full rounded-lg border p-2 text-gray-800 focus:ring-2 focus:ring-red-500"
                         placeholder="Deskripsi kegiatan"
                     ></textarea>
                 </div>
