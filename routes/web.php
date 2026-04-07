@@ -103,6 +103,11 @@ Route::middleware(['auth','role:admin'])->group(function () {
         return inertia('admin/users/Edit', ['id' => $id]);
     })->name('admin.users.edit');
 
+    Route::delete('/admin/users/{id}', function ($id) {
+        User::findOrFail($id)->delete();
+        return redirect()->back(); 
+    })->name('admin.users.destroy');
+
     // BERITA 
     Route::get('/admin/berita', function () {
         return inertia('admin/berita/List');

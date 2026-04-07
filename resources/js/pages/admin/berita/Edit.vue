@@ -147,7 +147,7 @@ const submit = async () => {
                         <input
                             type="text"
                             v-model="form.title"
-                            class="mt-1 w-full rounded-lg border p-2 focus:border-red-500 focus:ring focus:ring-red-200"
+                            class="mt-1 w-full rounded-lg border p-2 text-gray-800 focus:border-red-500 focus:ring focus:ring-red-200"
                             placeholder="Masukkan Judul Berita"
                         />
                     </div>
@@ -159,7 +159,7 @@ const submit = async () => {
                         <textarea
                             rows="4"
                             v-model="form.content"
-                            class="mt-1 w-full rounded-lg border p-2 focus:border-red-500 focus:ring focus:ring-red-200"
+                            class="mt-1 w-full rounded-lg border p-2 text-gray-800 focus:border-red-500 focus:ring focus:ring-red-200"
                             placeholder="Deskripsi Content"
                         ></textarea>
                     </div>
@@ -171,10 +171,9 @@ const submit = async () => {
                         <input
                             type="date"
                             v-model="form.publish_date"
-                            class="mt-1 w-full rounded-lg border p-2 focus:border-red-500 focus:ring focus:ring-red-200"
+                            class="mt-1 w-full rounded-lg border p-2 text-gray-800 focus:border-red-500 focus:ring focus:ring-red-200"
                         />
                     </div>
-
                     <div>
                         <label
                             class="mb-2 block text-sm font-medium text-gray-700"
