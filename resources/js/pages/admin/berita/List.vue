@@ -71,25 +71,25 @@ const handleDelete = async (id: number) => {
             </div>
 
             <table class="w-full border">
-                <thead class="bg-pink-50">
+                <thead class="bg-pink-50 text-gray-800">
                     <tr>
-                        <th class="border p-2 text-left">Judul</th>
-                        <th class="border p-2 text-left">Tanggal</th>
+                        <th class="border p-2 text-center">Judul</th>
+                        <th class="border p-2 text-center">Tanggal</th>
                         <th class="border p-2 text-center">Aksi</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     <tr v-for="item in berita" :key="item.id">
-                        <td class="border p-2">
+                        <td class="border p-2 text-center text-gray-800">
                             {{ item.title }}
                         </td>
 
-                        <td class="border p-2 text-center">
+                        <td class="border p-2 text-center text-gray-800">
                             {{ item.publish_date }}
                         </td>
 
-                        <td class="border p-2 text-center">
+                        <td class="border p-2 text-center text-gray-800">
                             <div class="flex justify-center gap-2">
                                 <a
                                     :href="`/admin/berita/edit/${item.id}`"

@@ -54,7 +54,7 @@ const submit = async () => {
                 </p>
             </div>
 
-            <form @submit.prevent="submit" class="space-y-6">
+            <form @submit.prevent="submit" class="space-y-6 text-gray-800">
                 <div>
                     <label class="block text-sm font-medium text-gray-700">
                         Judul
@@ -74,7 +74,7 @@ const submit = async () => {
                     <textarea
                         v-model="form.content"
                         rows="4"
-                        class="mt-1 w-full rounded-lg border p-2 ..."
+                        class="mt-1 w-full rounded-lg border p-2 text-gray-800 ..."
                         placeholder="Deskripsi Content"
                     ></textarea>
                 </div>

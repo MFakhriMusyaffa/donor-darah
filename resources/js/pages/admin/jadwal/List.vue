@@ -65,7 +65,7 @@ const confirmDelete = async () => {
             </div>
 
             <table class="w-full border">
-                <thead class="bg-pink-50">
+                <thead class="bg-pink-50 text-gray-800">
                     <tr>
                         <th class="border p-2">Nama Kegiatan</th>
                         <th class="border p-2">Mulai</th>
@@ -78,16 +78,20 @@ const confirmDelete = async () => {
 
                 <tbody>
                     <tr v-for="item in jadwal" :key="item.id">
-                        <td class="border p-2">{{ item.event_name }}</td>
-                        <td class="border p-2 text-center">
+                        <td class="border p-2 text-center text-gray-800">
+                            {{ item.event_name }}
+                        </td>
+                        <td class="border p-2 text-center text-gray-800">
                             {{ item.start_event }}
                         </td>
-                        <td class="border p-2 text-center">
+                        <td class="border p-2 text-center text-gray-800">
                             {{ item.end_event }}
                         </td>
-                        <td class="border p-2">{{ item.location }}</td>
+                        <td class="border p-2 text-center text-gray-800">
+                            {{ item.location }}
+                        </td>
 
-                        <td class="border p-2">
+                        <td class="border p-2 text-center text-gray-800">
                             {{ item.detail.slice(0, 30) }}...
                         </td>
 

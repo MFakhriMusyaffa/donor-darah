@@ -64,12 +64,12 @@ const submit = async () => {
             <form @submit.prevent="submit" class="space-y-6">
                 <!-- Golongan -->
                 <div>
-                    <label class="block text-sm font-medium"
+                    <label class="block text-sm font-medium text-gray-800"
                         >Golongan Darah</label
                     >
                     <select
                         v-model="form.golongan_darah"
-                        class="mt-1 w-full rounded-lg border p-2"
+                        class="mt-1 w-full rounded-lg border p-2 text-gray-800"
                     >
                         <option>A</option>
                         <option>B</option>
@@ -80,10 +80,12 @@ const submit = async () => {
 
                 <!-- Rhesus -->
                 <div>
-                    <label class="block text-sm font-medium">Rhesus</label>
+                    <label class="block text-sm font-medium text-gray-800"
+                        >Rhesus</label
+                    >
                     <select
                         v-model="form.rhesus"
-                        class="mt-1 w-full rounded-lg border p-2"
+                        class="mt-1 w-full rounded-lg border p-2 text-gray-800"
                     >
                         <option>+</option>
                         <option>-</option>
@@ -92,13 +94,13 @@ const submit = async () => {
 
                 <!-- Jumlah -->
                 <div>
-                    <label class="block text-sm font-medium"
+                    <label class="block text-sm font-medium text-gray-800"
                         >Jumlah Kantong</label
                     >
                     <input
                         type="number"
                         v-model="form.jumlah_kantong"
-                        class="mt-1 w-full rounded-lg border p-2"
+                        class="mt-1 w-full rounded-lg border p-2 text-gray-800"
                     />
                 </div>
 

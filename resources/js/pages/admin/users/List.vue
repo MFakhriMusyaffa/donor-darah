@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3'
+import { Head } from '@inertiajs/vue3';
 
 const props = defineProps<{
     users: Array<{
-        id: number
-        name: string
-        email: string
-        role: string
-        created_at: string
-    }>
-}>()
+        id: number;
+        name: string;
+        email: string;
+        role: string;
+        created_at: string;
+    }>;
+}>();
 </script>
 
 <template>
@@ -17,10 +17,16 @@ const props = defineProps<{
 
     <div class="min-h-screen bg-gray-100 p-10">
         <div class="mx-auto max-w-6xl rounded-xl bg-white p-8 shadow-md">
-            <div class="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div
+                class="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
+            >
                 <div>
-                    <h1 class="text-2xl font-bold text-red-600">Daftar Pengguna</h1>
-                    <p class="mt-1 text-sm text-slate-500">Kelola akun admin dan masyarakat di sistem.</p>
+                    <h1 class="text-2xl font-bold text-red-600">
+                        Daftar Pengguna
+                    </h1>
+                    <p class="mt-1 text-sm text-slate-500">
+                        Kelola akun admin dan masyarakat di sistem.
+                    </p>
                 </div>
                 <a
                     href="/admin/users/create"
@@ -31,8 +37,10 @@ const props = defineProps<{
             </div>
 
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-slate-200 text-left text-sm text-slate-700">
-                    <thead class="bg-slate-50 text-slate-900">
+                <table
+                    class="min-w-full divide-y divide-slate-200 text-left text-sm text-slate-700"
+                >
+                    <thead class="bg-pink-50 text-slate-900">
                         <tr>
                             <th class="px-4 py-3">Nama</th>
                             <th class="px-4 py-3">Email</th>
@@ -46,7 +54,13 @@ const props = defineProps<{
                             <td class="px-4 py-3">{{ user.name }}</td>
                             <td class="px-4 py-3">{{ user.email }}</td>
                             <td class="px-4 py-3">{{ user.role }}</td>
-                            <td class="px-4 py-3">{{ new Date(user.created_at).toLocaleDateString() }}</td>
+                            <td class="px-4 py-3">
+                                {{
+                                    new Date(
+                                        user.created_at,
+                                    ).toLocaleDateString()
+                                }}
+                            </td>
                             <td class="px-4 py-3 text-center">
                                 <div class="inline-flex items-center gap-2">
                                     <a

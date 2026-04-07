@@ -48,7 +48,7 @@ const submit = async () => {
                     </label>
                     <select
                         v-model="form.golongan_darah"
-                        class="mt-1 w-full rounded-lg border p-2"
+                        class="mt-1 w-full rounded-lg border p-2 text-gray-700"
                     >
                         <option value="">-- Pilih Golongan --</option>
                         <option>A</option>
@@ -64,7 +64,7 @@ const submit = async () => {
                     </label>
                     <select
                         v-model="form.rhesus"
-                        class="mt-1 w-full rounded-lg border p-2"
+                        class="mt-1 w-full rounded-lg border p-2 text-gray-700"
                     >
                         <option value="">-- Pilih Rhesus --</option>
                         <option>+</option>
@@ -79,7 +79,7 @@ const submit = async () => {
                     <input
                         type="number"
                         v-model="form.jumlah_kantong"
-                        class="mt-1 w-full rounded-lg border p-2"
+                        class="mt-1 w-full rounded-lg border p-2 text-gray-700"
                     />
                 </div>
 
