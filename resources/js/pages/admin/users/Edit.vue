@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3'
 import { ref } from 'vue'
+import AdminLayout from '@/layouts/AdminLayout.vue'
 
 const props = defineProps<{
     id: number
@@ -18,7 +19,7 @@ const handleSubmit = () => {
 <template>
     <Head title="Edit User" />
 
-    <div class="min-h-screen bg-gray-100 p-10">
+    <AdminLayout>
         <div class="mx-auto max-w-3xl rounded-xl bg-white p-8 shadow-md">
             <div class="mb-6">
                 <h1 class="text-2xl font-bold text-red-600">Edit User</h1>
@@ -52,5 +53,5 @@ const handleSubmit = () => {
                 </div>
             </form>
         </div>
-    </div>
+    </AdminLayout>
 </template>

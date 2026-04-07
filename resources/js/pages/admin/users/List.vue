@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3'
+import AdminLayout from '@/layouts/AdminLayout.vue'
 
 const props = defineProps<{
     users: Array<{
@@ -15,7 +16,7 @@ const props = defineProps<{
 <template>
     <Head title="User Admin" />
 
-    <div class="min-h-screen bg-gray-100 p-10">
+    <AdminLayout>
         <div class="mx-auto max-w-6xl rounded-xl bg-white p-8 shadow-md">
             <div class="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>
@@ -68,5 +69,5 @@ const props = defineProps<{
                 </table>
             </div>
         </div>
-    </div>
+    </AdminLayout>
 </template>

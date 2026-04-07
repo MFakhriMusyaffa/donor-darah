@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
 import { reactive, onMounted } from 'vue';
+import AdminLayout from '@/layouts/AdminLayout.vue';
 
 const form = reactive({
     id: null as number | null,
@@ -50,7 +51,8 @@ const submit = async () => {
 <template>
     <Head title="Edit Jadwal Kegiatan" />
 
-    <div class="flex min-h-screen items-center justify-center bg-gray-100">
+    <AdminLayout>
+        <div class="flex items-center justify-center">
         <div class="w-full max-w-3xl rounded-xl bg-white p-10 shadow-md">
             <h1 class="mb-2 text-center text-2xl font-bold text-red-600">
                 Edit Jadwal Kegiatan
@@ -134,4 +136,5 @@ const submit = async () => {
             </form>
         </div>
     </div>
+    </AdminLayout>
 </template>

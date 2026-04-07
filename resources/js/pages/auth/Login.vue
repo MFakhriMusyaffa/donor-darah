@@ -228,7 +228,7 @@ onMounted(() => {
 
                     <div class="mt-2 flex items-center justify-between">
                         <div class="flex items-center space-x-3">
-                            <Checkbox
+                            <!-- <Checkbox
                                 id="remember"
                                 name="remember"
                                 :tabindex="3"
@@ -239,7 +239,7 @@ onMounted(() => {
                                 class="cursor-pointer text-sm font-normal text-slate-600 dark:text-slate-400"
                             >
                                 Remember me
-                            </Label>
+                            </Label> -->
                         </div>
                         <TextLink
                             v-if="canResetPassword"
