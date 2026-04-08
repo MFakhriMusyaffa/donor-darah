@@ -6,6 +6,7 @@ use App\Models\Berita;
 use App\Models\JadwalKegiatan;
 use App\Models\StokDarah;
 use App\Models\User;
+use App\Http\Controllers\UserController;
 
 // Route::inertia('/', 'Welcome', [
 //     'canRegister' => Features::enabled(Features::registration()),
@@ -99,9 +100,17 @@ Route::middleware(['auth','role:admin'])->group(function () {
         return inertia('admin/users/Create');
     })->name('admin.users.create');
 
+    Route::post('/admin/users', [UserController::class, 'store'])->name('admin.users.store');
+
+    Route::get('/admin/users/{id}/data', [UserController::class, 'show']);
+
     Route::get('/admin/users/edit/{id}', function ($id) {
         return inertia('admin/users/Edit', ['id' => $id]);
     })->name('admin.users.edit');
+
+    Route::put('/admin/users/{id}', [UserController::class, 'update'])->name('admin.users.update');
+
+    Route::delete('/admin/users/{id}', [UserController::class, 'destroy'])->name('admin.users.destroy');
 
     // BERITA 
     Route::get('/admin/berita', function () {
