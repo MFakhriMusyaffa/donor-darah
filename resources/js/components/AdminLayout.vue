@@ -16,8 +16,8 @@ withDefaults(
 
 const page = usePage()
 
-const flashSuccess = computed(() => page.props.flash?.success)
-const flashError = computed(() => page.props.flash?.error)
+const flashSuccess = computed(() => (page.props.flash as Record<string, any>)?.success)
+const flashError = computed(() => (page.props.flash as Record<string, any>)?.error)
 </script>
 
 <template>

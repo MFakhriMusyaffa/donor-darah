@@ -4,7 +4,6 @@ import { router } from '@inertiajs/vue3'
 import AdminLayout from '@/components/AdminLayout.vue'
 import Toast from '@/components/Toast.vue'
 import { ref } from 'vue'
-import AdminLayout from '@/layouts/AdminLayout.vue'
 
 const name = ref('')
 const email = ref('')
@@ -60,13 +59,6 @@ const handleSubmit = async () => {
 <template>
     <Head title="Tambah User" />
 
-<<<<<<< HEAD
-    <AdminLayout>
-        <div class="mx-auto max-w-3xl rounded-xl bg-white p-8 shadow-md">
-            <div class="mb-6">
-                <h1 class="text-2xl font-bold text-red-600">Tambah User Baru</h1>
-                <p class="mt-1 text-sm text-slate-500">Isi informasi user baru untuk ditambahkan ke sistem.</p>
-=======
     <AdminLayout title="User Admin">
         <div class="min-h-screen bg-gray-100 p-10">
             <div class="mx-auto max-w-3xl rounded-xl bg-white p-8 shadow-md">
@@ -140,7 +132,6 @@ const handleSubmit = async () => {
                         <a href="/admin/users" class="text-sm text-slate-600 hover:text-slate-900">Kembali ke Daftar User</a>
                     </div>
                 </form>
->>>>>>> egi
             </div>
         </div>
     </AdminLayout>

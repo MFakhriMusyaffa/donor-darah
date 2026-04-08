@@ -1,9 +1,5 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3'
-<<<<<<< HEAD
-import { ref } from 'vue'
-import AdminLayout from '@/layouts/AdminLayout.vue'
-=======
 import { router, usePage } from '@inertiajs/vue3'
 import AdminLayout from '@/components/AdminLayout.vue'
 import Toast from '@/components/Toast.vue'
@@ -15,7 +11,6 @@ interface User {
     email: string
     role: string
 }
->>>>>>> egi
 
 const props = defineProps<{
     id: number
@@ -86,13 +81,6 @@ const handleSubmit = async () => {
 <template>
     <Head title="Edit User" />
 
-<<<<<<< HEAD
-    <AdminLayout>
-        <div class="mx-auto max-w-3xl rounded-xl bg-white p-8 shadow-md">
-            <div class="mb-6">
-                <h1 class="text-2xl font-bold text-red-600">Edit User</h1>
-                <p class="mt-1 text-sm text-slate-500">Perbarui data user ID {{ props.id }}.</p>
-=======
     <AdminLayout title="User Admin">
         <div class="min-h-screen bg-gray-100 p-10">
             <div class="mx-auto max-w-3xl rounded-xl bg-white p-8 shadow-md">
@@ -171,7 +159,6 @@ const handleSubmit = async () => {
                         <a href="/admin/users" class="text-sm text-slate-600 hover:text-slate-900">Kembali ke Daftar User</a>
                     </div>
                 </form>
->>>>>>> egi
             </div>
         </div>
     </AdminLayout>

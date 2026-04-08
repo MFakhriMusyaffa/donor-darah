@@ -2,7 +2,6 @@
 import { Head } from '@inertiajs/vue3';
 import AdminLayout from '@/components/AdminLayout.vue';
 import { ref, onMounted } from 'vue';
-import AdminLayout from '@/layouts/AdminLayout.vue';
 
 const showModal = ref(false);
 const selectedId = ref<number | null>(null);
@@ -49,11 +48,7 @@ const confirmDelete = async () => {
 <template>
     <Head title="Stok Darah" />
 
-<<<<<<< HEAD
-    <AdminLayout>
-=======
     <AdminLayout title="Stok Darah">
->>>>>>> egi
         <div class="mx-auto max-w-5xl rounded-xl bg-white p-8 shadow-md">
             <div class="mb-6 flex items-center justify-between">
                 <h1 class="text-2xl font-bold text-red-600">
@@ -111,19 +106,9 @@ const confirmDelete = async () => {
                 </tbody>
             </table>
         </div>
-<<<<<<< HEAD
-
-=======
-    </AdminLayout>
-
-    <div
-        v-if="showModal"
-        class="fixed inset-0 flex items-center justify-center bg-black/30 z-50"
-    >
->>>>>>> egi
         <div
             v-if="showModal"
-            class="fixed inset-0 flex items-center justify-center bg-black/30"
+            class="fixed inset-0 flex items-center justify-center bg-black/30 z-50"
         >
             <div
                 class="w-full max-w-sm scale-95 rounded-xl bg-white p-6 shadow-lg transition-all duration-200"

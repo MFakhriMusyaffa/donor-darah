@@ -2,7 +2,6 @@
 import { Head } from '@inertiajs/vue3';
 import AdminLayout from '@/components/AdminLayout.vue';
 import { reactive, onMounted } from 'vue';
-import AdminLayout from '@/layouts/AdminLayout.vue';
 
 const form = reactive({
     id: null as number | null,
@@ -54,60 +53,6 @@ const submit = async () => {
 <template>
     <Head title="Edit Stok Darah" />
 
-<<<<<<< HEAD
-    <AdminLayout>
-        <div class="flex items-center justify-center">
-        <div class="w-full max-w-3xl rounded-xl bg-white p-8 shadow-md">
-            <h1 class="mb-2 text-center text-2xl font-bold text-red-600">
-                Edit Stok Darah
-            </h1>
-            <p class="mb-8 text-center text-sm text-gray-500">
-                Perbarui informasi Stok Darah yang akan ditampilkan
-            </p>
-
-            <form @submit.prevent="submit" class="space-y-6">
-                <!-- Golongan -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-800"
-                        >Golongan Darah</label
-                    >
-                    <select
-                        v-model="form.golongan_darah"
-                        class="mt-1 w-full rounded-lg border p-2 text-gray-800"
-                    >
-                        <option>A</option>
-                        <option>B</option>
-                        <option>AB</option>
-                        <option>O</option>
-                    </select>
-                </div>
-
-                <!-- Rhesus -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-800"
-                        >Rhesus</label
-                    >
-                    <select
-                        v-model="form.rhesus"
-                        class="mt-1 w-full rounded-lg border p-2 text-gray-800"
-                    >
-                        <option>+</option>
-                        <option>-</option>
-                    </select>
-                </div>
-
-                <!-- Jumlah -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-800"
-                        >Jumlah Kantong</label
-                    >
-                    <input
-                        type="number"
-                        v-model="form.jumlah_kantong"
-                        class="mt-1 w-full rounded-lg border p-2 text-gray-800"
-                    />
-                </div>
-=======
     <AdminLayout title="Stok Darah">
         <div class="flex min-h-screen items-center justify-center">
             <div class="w-full max-w-3xl rounded-xl bg-white p-8 shadow-md">
@@ -158,7 +103,6 @@ const submit = async () => {
                             class="mt-1 w-full rounded-lg border p-2"
                         />
                     </div>
->>>>>>> egi
 
                     <button
                         type="submit"
@@ -169,9 +113,5 @@ const submit = async () => {
                 </form>
             </div>
         </div>
-<<<<<<< HEAD
-    </div>
-=======
->>>>>>> egi
     </AdminLayout>
 </template>

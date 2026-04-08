@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Laravel\Fortify\Features;
 use App\Models\Berita;
 use App\Models\JadwalKegiatan;
 use App\Models\StokDarah;
@@ -164,7 +163,12 @@ Route::get('/', function () {
     return redirect('/login');
 })->name('home');
 
-Route::get('/logout', function () {
+// Route::get('/logout', function () {
+//     auth()->logout();
+//     return redirect('/login');
+// });
+
+Route::post('/logout', function () {
     auth()->logout();
     return redirect('/login');
 });

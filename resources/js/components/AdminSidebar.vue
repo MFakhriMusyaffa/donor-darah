@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
+import { clearRememberedEmail } from '@/lib/rememberMe';
 
 withDefaults(
     defineProps<{
@@ -9,6 +10,11 @@ withDefaults(
         active: 'Dashboard',
     }
 );
+
+const handleLogout = () => {
+    clearRememberedEmail();
+    router.post('/logout');
+};
 </script>
 
 <template>
@@ -42,11 +48,12 @@ withDefaults(
         </nav>
 
         <div class="px-4 pb-6">
-            <form method="POST" action="/logout">
-                <button type="submit" class="w-full rounded-lg bg-red-600 px-4 py-3 text-white hover:bg-red-700">
-                    Logout
-                </button>
-            </form>
+            <button 
+                type="button"
+                @click="handleLogout"
+                class="w-full rounded-lg bg-red-600 px-4 py-3 text-white hover:bg-red-700">
+                Logout
+            </button>
         </div>
     </aside>
 </template>

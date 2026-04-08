@@ -1,48 +1,4 @@
 <script setup lang="ts">
-<<<<<<< HEAD
-import { Head, router } from '@inertiajs/vue3';
-import AdminLayout from '@/layouts/AdminLayout.vue';
-import Swal from 'sweetalert2'; // Import SweetAlert2
-
-const props = defineProps<{
-    users: Array<{
-        id: number;
-        name: string;
-        email: string;
-        role: string;
-        created_at: string;
-    }>;
-}>();
-
-// Fungsi untuk menghapus dengan SweetAlert2
-const deleteUser = (id: number) => {
-    Swal.fire({
-        title: 'Apakah Anda yakin?',
-        text: 'Data pengguna ini akan dihapus secara permanen!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#dc2626', // Warna merah Tailwind (red-600)
-        cancelButtonColor: '#64748b', // Warna abu-abu Tailwind (slate-500)
-        confirmButtonText: 'Ya, Hapus!',
-        cancelButtonText: 'Batal',
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // Gunakan router Inertia agar halaman otomatis refresh datanya!
-            router.delete(`/admin/users/${id}`, {
-                preserveScroll: true, // Agar layar tidak loncat ke atas
-                onSuccess: () => {
-                    Swal.fire({
-                        title: 'Terhapus!',
-                        text: 'Data pengguna berhasil dihapus.',
-                        icon: 'success',
-                        confirmButtonColor: '#16a34a', // Warna hijau Tailwind
-                    });
-                },
-            });
-        }
-    });
-};
-=======
 import { Head } from '@inertiajs/vue3'
 import { router } from '@inertiajs/vue3'
 import AdminLayout from '@/components/AdminLayout.vue'
@@ -83,17 +39,12 @@ const confirmDelete = () => {
         }
     })
 }
->>>>>>> egi
 </script>
 
 <template>
     <Head title="User Admin" />
 
-<<<<<<< HEAD
-    <AdminLayout>
-=======
     <AdminLayout title="User Admin">
->>>>>>> egi
         <div class="mx-auto max-w-6xl rounded-xl bg-white p-8 shadow-md">
             <div
                 class="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
@@ -131,25 +82,12 @@ const confirmDelete = () => {
                         <tr v-for="user in props.users" :key="user.id">
                             <td class="px-4 py-3">{{ user.name }}</td>
                             <td class="px-4 py-3">{{ user.email }}</td>
-<<<<<<< HEAD
-                            <td class="px-4 py-3 font-medium">
-                                {{ user.role }}
-                            </td>
-                            <td class="px-4 py-3">
-                                {{
-                                    new Date(
-                                        user.created_at,
-                                    ).toLocaleDateString('id-ID')
-                                }}
-                            </td>
-=======
                             <td class="px-4 py-3">
                                 <span class="rounded-full bg-slate-200 px-3 py-1 text-xs font-medium text-slate-800">
                                     {{ user.role }}
                                 </span>
                             </td>
                             <td class="px-4 py-3">{{ new Date(user.created_at).toLocaleDateString('id-ID') }}</td>
->>>>>>> egi
                             <td class="px-4 py-3 text-center">
                                 <div class="inline-flex items-center gap-2">
                                     <a
@@ -159,13 +97,8 @@ const confirmDelete = () => {
                                         Edit
                                     </a>
                                     <button
-<<<<<<< HEAD
-                                        @click="deleteUser(user.id)"
-                                        class="rounded bg-red-500 px-3 py-1 text-sm text-white transition-colors hover:bg-red-600"
-=======
                                         @click="openDeleteModal(user)"
                                         class="rounded bg-red-500 px-3 py-1 text-sm text-white hover:bg-red-600"
->>>>>>> egi
                                     >
                                         Hapus
                                     </button>
@@ -176,8 +109,6 @@ const confirmDelete = () => {
                 </table>
             </div>
         </div>
-<<<<<<< HEAD
-=======
 
         <!-- Delete Confirmation Modal -->
         <div v-if="showDeleteModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -206,6 +137,5 @@ const confirmDelete = () => {
                 </div>
             </div>
         </div>
->>>>>>> egi
     </AdminLayout>
 </template>
