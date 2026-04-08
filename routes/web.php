@@ -53,7 +53,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return inertia('Dashboard');
     })->name('dashboard');
+});
 
+// Masyarakat Routes
+Route::middleware(['auth', 'role:masyarakat'])->group(function () {
     Route::get('/stok-darah', function () {
         return inertia('masyarakat/StokDarah', [
             'stokDarah' => StokDarah::select('id', 'golongan_darah', 'rhesus', 'jumlah_kantong')

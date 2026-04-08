@@ -22,6 +22,7 @@ class UserController extends Controller
             ]);
 
             $validated['password'] = bcrypt($validated['password']);
+            $validated['status'] = 'aktif'; // User baru otomatis aktif
             
             User::create($validated);
 
