@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { Form, Head } from '@inertiajs/vue3';
+import { Form, Head, usePage } from '@inertiajs/vue3';
 import InputError from '@/components/InputError.vue';
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
@@ -11,6 +11,13 @@ import { Spinner } from '@/components/ui/spinner';
 import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
+import {
+    saveRememberedEmail,
+    getRememberedEmail,
+    clearRememberedEmail,
+} from '@/lib/rememberMe';
+
+const page = usePage();
 
 defineProps<{
     status?: string;
@@ -21,6 +28,8 @@ defineProps<{
 // --- Logika Dark/Light Mode ---
 const isDark = ref(false);
 const showPassword = ref(false);
+const isRemember = ref(false);
+const emailInput = ref('');
 
 const toggleTheme = () => {
     isDark.value = !isDark.value;
@@ -30,6 +39,51 @@ const toggleTheme = () => {
     } else {
         document.documentElement.classList.remove('dark');
         localStorage.setItem('theme', 'light');
+    }
+};
+
+/**
+ * Detect user role based on authenticated user or redirect path
+ */
+const detectUserRole = (): 'admin' | 'user' => {
+    // Try to get from current user props
+    const user = page.props.auth?.user;
+    if (user?.role === 'admin') {
+        return 'admin';
+    }
+
+    // Fallback: check from localStorage after login
+    const storedRole = localStorage.getItem('user_role');
+    if (storedRole === 'admin') {
+        return 'admin';
+    }
+
+    return 'user';
+};
+
+/**
+ * Handle form submission - save or clear email cookie with role-based duration
+ * ✅ Email ONLY (not password)
+ * ✅ Validated before save
+ * ✅ Role-based duration (Admin: 1 day, User: 7 days)
+ * ✅ Auto-deleted if checkbox unchecked
+ */
+const handleFormSubmit = () => {
+    const email = emailInput.value?.trim();
+
+    if (isRemember.value && email) {
+        // Detect role for duration
+        const role = detectUserRole();
+
+        // Save email to cookie with role-based duration
+        // After redirect, middleware should set localStorage user_role
+        setTimeout(() => {
+            const finalRole = detectUserRole();
+            saveRememberedEmail(email, finalRole);
+        }, 500);
+    } else {
+        // Clear if checkbox unchecked or email empty
+        clearRememberedEmail();
     }
 };
 
@@ -45,6 +99,15 @@ onMounted(() => {
     } else {
         isDark.value = false;
         document.documentElement.classList.remove('dark');
+    }
+
+    // Load remembered email from cookie (role-based retention)
+    // ✅ Email validated when reading from cookie
+    // ✅ Invalid emails auto-deleted
+    const rememberedEmail = getRememberedEmail();
+    if (rememberedEmail) {
+        emailInput.value = rememberedEmail;
+        isRemember.value = true;
     }
 });
 // ------------------------------
@@ -125,6 +188,7 @@ onMounted(() => {
                     :reset-on-success="['password']"
                     v-slot="{ errors, processing }"
                     class="flex flex-col gap-6"
+                    @submit="handleFormSubmit"
                 >
                     <div class="relative">
                         <Label
@@ -135,6 +199,7 @@ onMounted(() => {
                         <div class="relative mt-2">
                             <Input
                                 id="email"
+                                v-model="emailInput"
                                 type="email"
                                 name="email"
                                 required
@@ -228,18 +293,26 @@ onMounted(() => {
 
                     <div class="mt-2 flex items-center justify-between">
                         <div class="flex items-center space-x-3">
-                            <!-- <Checkbox
-                                id="remember"
+                            <input
+                                type="hidden"
                                 name="remember"
+                                :value="isRemember ? 'on' : ''"
+                            />
+
+                            <Checkbox
+                                id="remember"
+                                :checked="isRemember"
+                                @update:checked="isRemember = $event"
                                 :tabindex="3"
                                 class="border-slate-300 data-[state=checked]:bg-red-600 dark:border-zinc-700"
                             />
                             <Label
                                 for="remember"
                                 class="cursor-pointer text-sm font-normal text-slate-600 dark:text-slate-400"
+                                @click="isRemember = !isRemember"
                             >
                                 Remember me
-                            </Label> -->
+                            </Label>
                         </div>
                         <TextLink
                             v-if="canResetPassword"
@@ -264,52 +337,12 @@ onMounted(() => {
                         <span>Sign in</span>
                     </Button>
                 </Form>
-
-                <div class="my-8 flex items-center">
-                    <div
-                        class="flex-grow border-t border-slate-200 dark:border-zinc-800"
-                    ></div>
-                    <span class="px-4 text-sm text-slate-400 dark:text-zinc-500"
-                        >or</span
-                    >
-                    <div
-                        class="flex-grow border-t border-slate-200 dark:border-zinc-800"
-                    ></div>
-                </div>
-
-                <div class="flex items-center justify-center gap-6">
-                    <Button
-                        variant="outline"
-                        type="button"
-                        class="flex w-full items-center justify-center gap-2 rounded-lg border-slate-200 bg-white py-6 text-slate-700 transition-all duration-200 hover:bg-slate-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-slate-300 dark:hover:bg-zinc-800"
-                    >
-                        <svg class="h-5 w-5" viewBox="0 0 48 48">
-                            <path
-                                fill="#fbc02d"
-                                d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.954 4 4 12.954 4 24s8.954 20 20 20s20-8.954 20-20c0-1.332-.132-2.632-.389-3.917Z"
-                            />
-                            <path
-                                fill="#e53935"
-                                d="m6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691Z"
-                            />
-                            <path
-                                fill="#4caf50"
-                                d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44Z"
-                            />
-                            <path
-                                fill="#1565c0"
-                                d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002l6.19 5.238C36.971 39.205 44 34 44 24c0-1.332-.132-2.632-.389-3.917Z"
-                            />
-                        </svg>
-                        Sign in with Google
-                    </Button>
-                </div>
             </div>
         </div>
 
         <div class="hidden w-1/2 p-4 lg:flex">
             <div
-                class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-[2rem] bg-slate-100 transition-colors duration-300 dark:bg-red-200"
+                class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-3xl bg-slate-100 transition-colors duration-300 dark:bg-red-200"
             >
                 <img
                     src="@/assets/images/backgrounds/Login.png"

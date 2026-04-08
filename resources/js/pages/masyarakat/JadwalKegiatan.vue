@@ -9,12 +9,15 @@ defineProps<{
         id: number;
         event_name: string;
         start_event: string;
+        end_event?: string; // <-- Tambahan data tanggal selesai
         location: string;
         detail?: string;
     }>;
 }>();
 
 const breadcrumbs: BreadcrumbItem[] = [];
+
+// Format Tanggal Kotak Kiri (Hanya Start Event)
 const getDay = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('id-ID', { day: '2-digit' });
@@ -28,14 +31,33 @@ const getMonthYear = (dateString: string) => {
     });
 };
 
-const getTime = (dateString: string) => {
-    const date = new Date(dateString);
-    return (
-        date.toLocaleTimeString('id-ID', {
-            hour: '2-digit',
-            minute: '2-digit',
-        }) + ' WIB'
-    );
+// Fungsi Pintar untuk Rentang Tanggal (Contoh: 7 Jan - 5 Apr 2026)
+const formatDateRange = (startStr: string, endStr?: string) => {
+    const startDate = new Date(startStr);
+    const startDay = startDate.getDate();
+    const startMonth = startDate.toLocaleDateString('id-ID', {
+        month: 'short',
+    });
+    const startYear = startDate.getFullYear();
+
+    // Jika tidak ada tanggal selesai, tampilkan 1 tanggal saja
+    if (!endStr) {
+        return `${startDay} ${startMonth} ${startYear}`;
+    }
+
+    const endDate = new Date(endStr);
+    const endDay = endDate.getDate();
+    const endMonth = endDate.toLocaleDateString('id-ID', { month: 'short' });
+    const endYear = endDate.getFullYear();
+
+    // Logika penggabungan teks
+    if (startYear !== endYear) {
+        return `${startDay} ${startMonth} ${startYear} - ${endDay} ${endMonth} ${endYear}`;
+    } else if (startMonth !== endMonth) {
+        return `${startDay} ${startMonth} - ${endDay} ${endMonth} ${startYear}`;
+    } else {
+        return `${startDay} - ${endDay} ${startMonth} ${startYear}`;
+    }
 };
 </script>
 
@@ -145,14 +167,17 @@ const getTime = (dateString: string) => {
                                                             stroke-linecap="round"
                                                             stroke-linejoin="round"
                                                             stroke-width="2"
-                                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                                                         ></path>
                                                     </svg>
-                                                    <span class="font-medium">{{
-                                                        getTime(
-                                                            item.start_event,
-                                                        )
-                                                    }}</span>
+                                                    <span class="font-medium">
+                                                        {{
+                                                            formatDateRange(
+                                                                item.start_event,
+                                                                item.end_event,
+                                                            )
+                                                        }}
+                                                    </span>
                                                 </div>
 
                                                 <div

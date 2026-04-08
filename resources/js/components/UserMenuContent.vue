@@ -11,12 +11,14 @@ import UserInfo from '@/components/UserInfo.vue';
 import { logout } from '@/routes';
 import { edit } from '@/routes/profile';
 import type { User } from '@/types';
+import { clearRememberedEmail } from '@/lib/rememberMe';
 
 type Props = {
     user: User;
 };
 
 const handleLogout = () => {
+    clearRememberedEmail();
     router.flushAll();
 };
 

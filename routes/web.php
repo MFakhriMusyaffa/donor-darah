@@ -63,7 +63,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/jadwal', function () {
         return inertia('masyarakat/JadwalKegiatan', [
-            'jadwal' => JadwalKegiatan::select('id', 'event_name', 'start_event', 'location', 'detail')
+            'jadwal' => JadwalKegiatan::select('id', 'event_name', 'start_event', 'end_event', 'location', 'detail')
                 ->orderBy('start_event', 'asc')
                 ->get(),
         ]);
