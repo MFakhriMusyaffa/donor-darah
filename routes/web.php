@@ -6,6 +6,7 @@ use App\Models\Berita;
 use App\Models\JadwalKegiatan;
 use App\Models\StokDarah;
 use App\Models\User;
+use App\Http\Controllers\UserController;
 
 // Route::inertia('/', 'Welcome', [
 //     'canRegister' => Features::enabled(Features::registration()),
@@ -52,7 +53,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return inertia('Dashboard');
     })->name('dashboard');
+});
 
+// Masyarakat Routes
+Route::middleware(['auth', 'role:masyarakat'])->group(function () {
     Route::get('/stok-darah', function () {
         return inertia('masyarakat/StokDarah', [
             'stokDarah' => StokDarah::select('id', 'golongan_darah', 'rhesus', 'jumlah_kantong')
@@ -99,14 +103,13 @@ Route::middleware(['auth','role:admin'])->group(function () {
         return inertia('admin/users/Create');
     })->name('admin.users.create');
 
+    Route::post('/admin/users', [UserController::class, 'store'])->name('admin.users.store');
+
+    Route::get('/admin/users/{id}/data', [UserController::class, 'show']);
+
     Route::get('/admin/users/edit/{id}', function ($id) {
         return inertia('admin/users/Edit', ['id' => $id]);
     })->name('admin.users.edit');
-
-    Route::delete('/admin/users/{id}', function ($id) {
-        User::findOrFail($id)->delete();
-        return redirect()->back(); 
-    })->name('admin.users.destroy');
 
     // BERITA 
     Route::get('/admin/berita', function () {

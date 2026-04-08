@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
+<<<<<<< HEAD
 import { reactive, onMounted, ref } from 'vue'; // <-- Tambahkan 'ref'
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import Swal from 'sweetalert2';
+=======
+import AdminLayout from '@/components/AdminLayout.vue';
+import { reactive, onMounted } from 'vue';
+>>>>>>> egi
 
 const form = reactive({
     id: null as number | null,
@@ -129,8 +134,13 @@ const submit = async () => {
 <template>
     <Head title="Edit Berita" />
 
+<<<<<<< HEAD
     <AdminLayout>
         <div class="flex items-center justify-center">
+=======
+    <AdminLayout title="Berita">
+        <div class="flex min-h-screen items-center justify-center">
+>>>>>>> egi
             <div class="w-full max-w-3xl rounded-xl bg-white p-8 shadow-md">
                 <div class="mb-8 text-center">
                     <h1 class="text-2xl font-bold text-red-600">Edit Berita</h1>
@@ -147,7 +157,11 @@ const submit = async () => {
                         <input
                             type="text"
                             v-model="form.title"
+<<<<<<< HEAD
                             class="mt-1 w-full rounded-lg border p-2 text-gray-800 focus:border-red-500 focus:ring focus:ring-red-200"
+=======
+                            class="mt-1 w-full rounded-lg border p-2 focus:border-red-500 focus:ring focus:ring-red-200"
+>>>>>>> egi
                             placeholder="Masukkan Judul Berita"
                         />
                     </div>
@@ -159,7 +173,11 @@ const submit = async () => {
                         <textarea
                             rows="4"
                             v-model="form.content"
+<<<<<<< HEAD
                             class="mt-1 w-full rounded-lg border p-2 text-gray-800 focus:border-red-500 focus:ring focus:ring-red-200"
+=======
+                            class="mt-1 w-full rounded-lg border p-2 focus:border-red-500 focus:ring focus:ring-red-200"
+>>>>>>> egi
                             placeholder="Deskripsi Content"
                         ></textarea>
                     </div>
@@ -171,6 +189,7 @@ const submit = async () => {
                         <input
                             type="date"
                             v-model="form.publish_date"
+<<<<<<< HEAD
                             class="mt-1 w-full rounded-lg border p-2 text-gray-800 focus:border-red-500 focus:ring focus:ring-red-200"
                         />
                     </div>
@@ -194,6 +213,20 @@ const submit = async () => {
                             accept="image/*"
                             @change="handleFile"
                             class="mt-1 w-full text-sm text-gray-500 file:mr-4 file:rounded-md file:border-0 file:bg-red-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-red-700 hover:file:bg-red-100"
+=======
+                            class="mt-1 w-full rounded-lg border p-2 focus:border-red-500 focus:ring focus:ring-red-200"
+                        />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">
+                            Thumbnail
+                        </label>
+                        <input
+                            type="file"
+                            @change="handleFile"
+                            class="mt-1 w-full"
+>>>>>>> egi
                         />
                     </div>
 

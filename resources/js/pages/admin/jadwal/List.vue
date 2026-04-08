@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
+import AdminLayout from '@/components/AdminLayout.vue';
 import { ref, onMounted } from 'vue';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 
@@ -50,7 +51,11 @@ const confirmDelete = async () => {
 <template>
     <Head title="Jadwal Kegiatan" />
 
+<<<<<<< HEAD
     <AdminLayout>
+=======
+    <AdminLayout title="Jadwal Kegiatan">
+>>>>>>> egi
         <div class="mx-auto max-w-6xl rounded-xl bg-white p-8 shadow-md">
             <div class="mb-6 flex items-center justify-between">
                 <h1 class="text-2xl font-bold text-red-600">
@@ -118,6 +123,19 @@ const confirmDelete = async () => {
                 </tbody>
             </table>
         </div>
+<<<<<<< HEAD
+=======
+    </AdminLayout>
+
+    <div
+        v-if="showModal"
+        class="fixed inset-0 flex items-center justify-center bg-black/30 z-50"
+    >
+        <div class="w-full max-w-sm rounded-xl bg-white p-6 shadow-lg">
+            <h2 class="mb-4 text-lg font-bold text-gray-800">
+                Konfirmasi Hapus
+            </h2>
+>>>>>>> egi
 
         <div
             v-if="showModal"

@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
+<<<<<<< HEAD
 import { reactive, ref } from 'vue'; // <-- Tambahkan 'ref' di sini
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import Swal from 'sweetalert2';
+=======
+import AdminLayout from '@/components/AdminLayout.vue';
+import { reactive } from 'vue';
+>>>>>>> egi
 
 const form = reactive({
     title: '',
@@ -95,6 +100,7 @@ const submit = async () => {
 <template>
     <Head title="Tambah Berita" />
 
+<<<<<<< HEAD
     <AdminLayout>
         <div class="flex items-center justify-center">
             <div class="w-full max-w-3xl rounded-xl bg-white p-8 shadow-md">
@@ -102,11 +108,23 @@ const submit = async () => {
                     <h1 class="text-2xl font-bold text-red-600">
                         Tambah Berita
                     </h1>
+=======
+    <AdminLayout title="Berita">
+        <div class="flex min-h-screen items-center justify-center">
+            <div class="w-full max-w-3xl rounded-xl bg-white p-8 shadow-md">
+                <div class="mb-8 text-center">
+                    <h1 class="text-2xl font-bold text-red-600">Tambah Berita</h1>
+>>>>>>> egi
                     <p class="text-sm text-gray-500">
                         Isi form di bawah untuk menambahkan berita baru
                     </p>
                 </div>
+<<<<<<< HEAD
                 <form @submit.prevent="submit" class="space-y-6 text-gray-800">
+=======
+
+                <form @submit.prevent="submit" class="space-y-6">
+>>>>>>> egi
                     <div>
                         <label class="block text-sm font-medium text-gray-700">
                             Judul
@@ -126,7 +144,11 @@ const submit = async () => {
                         <textarea
                             v-model="form.content"
                             rows="4"
+<<<<<<< HEAD
                             class="mt-1 w-full rounded-lg border p-2 text-gray-800 ..."
+=======
+                            class="mt-1 w-full rounded-lg border p-2 ..."
+>>>>>>> egi
                             placeholder="Deskripsi Content"
                         ></textarea>
                     </div>
@@ -143,6 +165,7 @@ const submit = async () => {
                     </div>
 
                     <div>
+<<<<<<< HEAD
                         <label
                             class="mb-2 block text-sm font-medium text-gray-700"
                         >
@@ -162,6 +185,15 @@ const submit = async () => {
                             accept="image/*"
                             @change="handleFile"
                             class="mt-1 w-full text-sm text-gray-500 file:mr-4 file:rounded-md file:border-0 file:bg-red-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-red-700 hover:file:bg-red-100"
+=======
+                        <label class="block text-sm font-medium text-gray-700">
+                            Thumbnail
+                        </label>
+                        <input
+                            type="file"
+                            @change="handleFile"
+                            class="mt-1 w-full"
+>>>>>>> egi
                         />
                     </div>
 

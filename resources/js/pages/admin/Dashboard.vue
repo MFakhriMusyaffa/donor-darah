@@ -1,6 +1,12 @@
 <script setup lang="ts">
+<<<<<<< HEAD
 import { Head, Link } from '@inertiajs/vue3'
 import AdminLayout from '@/layouts/AdminLayout.vue'
+=======
+import { Head, Link, Form } from '@inertiajs/vue3'
+import AdminLayout from '@/components/AdminLayout.vue'
+import { Button } from '@/components/ui/button'
+>>>>>>> egi
 
 type AdminDashboardProps = {
     counts: {
@@ -21,7 +27,11 @@ const props = defineProps<AdminDashboardProps>()
 <template>
     <Head title="Admin Dashboard" />
 
+<<<<<<< HEAD
     <AdminLayout>
+=======
+    <AdminLayout title="Dashboard">
+>>>>>>> egi
         <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
                 <h1 class="text-3xl font-bold text-slate-900">Selamat datang, Admin</h1>
@@ -35,6 +45,7 @@ const props = defineProps<AdminDashboardProps>()
                     Kelola Stok Darah
                 </Link>
             </div>
+<<<<<<< HEAD
         </div>
 
         <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-4 mb-8">
@@ -106,6 +117,79 @@ const props = defineProps<AdminDashboardProps>()
             </section>
         </div>
 
+=======
+        </div>
+
+        <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-4 mb-8">
+            <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                <div class="text-sm font-semibold uppercase tracking-wide text-slate-500">Total User</div>
+                <div class="mt-4 text-4xl font-bold text-slate-900">{{ props.counts.users }}</div>
+                <p class="mt-2 text-sm text-slate-500">Total akun di sistem.</p>
+            </div>
+            <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                <div class="text-sm font-semibold uppercase tracking-wide text-slate-500">Stok Darah</div>
+                <div class="mt-4 text-4xl font-bold text-slate-900">{{ props.counts.stokDarah }}</div>
+                <p class="mt-2 text-sm text-slate-500">Jumlah item stok darah.</p>
+            </div>
+            <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                <div class="text-sm font-semibold uppercase tracking-wide text-slate-500">Jadwal</div>
+                <div class="mt-4 text-4xl font-bold text-slate-900">{{ props.counts.jadwal }}</div>
+                <p class="mt-2 text-sm text-slate-500">Jumlah jadwal kegiatan.</p>
+            </div>
+            <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                <div class="text-sm font-semibold uppercase tracking-wide text-slate-500">Berita</div>
+                <div class="mt-4 text-4xl font-bold text-slate-900">{{ props.counts.berita }}</div>
+                <p class="mt-2 text-sm text-slate-500">Jumlah artikel berita.</p>
+            </div>
+        </div>
+
+        <div class="grid gap-6 xl:grid-cols-2">
+            <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                <div class="mb-4 flex items-center justify-between">
+                    <div>
+                        <h2 class="text-xl font-semibold text-slate-900">User Terbaru</h2>
+                        <p class="text-sm text-slate-500">5 user terbaru di sistem.</p>
+                    </div>
+                    <Link href="/admin/users" class="text-sm text-rose-600 hover:text-rose-700">Lihat semua</Link>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-left text-sm text-slate-600">
+                        <thead class="border-b border-slate-200 text-slate-900">
+                            <tr>
+                                <th class="py-3 pr-4 font-semibold">Nama</th>
+                                <th class="py-3 pr-4 font-semibold">Email</th>
+                                <th class="py-3 pr-4 font-semibold">Role</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="user in props.users" :key="user.id" class="border-b border-slate-100 hover:bg-slate-50">
+                                <td class="py-3 pr-4">{{ user.name }}</td>
+                                <td class="py-3 pr-4">{{ user.email }}</td>
+                                <td class="py-3 pr-4">{{ user.role }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                <div class="mb-4 flex items-center justify-between">
+                    <div>
+                        <h2 class="text-xl font-semibold text-slate-900">Berita Terbaru</h2>
+                        <p class="text-sm text-slate-500">5 berita terbaru.</p>
+                    </div>
+                    <Link href="/admin/berita" class="text-sm text-rose-600 hover:text-rose-700">Lihat semua</Link>
+                </div>
+                <ul class="space-y-3 text-slate-700">
+                    <li v-for="item in props.berita" :key="item.id" class="rounded-2xl border border-slate-200 p-4 hover:bg-slate-50">
+                        <div class="font-semibold">{{ item.title }}</div>
+                        <div class="text-sm text-slate-500">{{ item.publish_date || 'Tanggal belum tersedia' }}</div>
+                    </li>
+                </ul>
+            </section>
+        </div>
+
+>>>>>>> egi
         <div class="mt-6 grid gap-6 xl:grid-cols-2">
             <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
                 <div class="mb-4 flex items-center justify-between">
