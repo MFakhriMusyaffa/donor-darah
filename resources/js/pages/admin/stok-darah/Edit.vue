@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import AdminLayout from '@/components/AdminLayout.vue';
 import { reactive, onMounted } from 'vue';
+import Swal from 'sweetalert2';
 
 const form = reactive({
     id: null as number | null,
@@ -33,7 +34,12 @@ onMounted(fetchData);
 // SUBMIT UPDATE
 const submit = async () => {
     if (!form.golongan_darah || !form.rhesus || form.jumlah_kantong <= 0) {
-        alert('Semua field harus diisi!');
+        // Alert Error Keren
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal',
+            text: 'Semua field harus diisi dan jumlah tidak boleh 0!',
+        });
         return;
     }
 
@@ -45,8 +51,17 @@ const submit = async () => {
         body: JSON.stringify(form),
     });
 
-    alert('Data berhasil diupdate!');
-    window.location.href = '/admin/stok-darah';
+    // Alert Sukses Keren (Hilang otomatis dalam 1.5 detik)
+    Swal.fire({
+        icon: 'success',
+        title: 'Berhasil!',
+        text: 'Data berhasil diupdate!',
+        showConfirmButton: false,
+        timer: 1500,
+    }).then(() => {
+        // Pindah halaman tanpa kedip (mulus)
+        router.get('/admin/stok-darah');
+    });
 };
 </script>
 
@@ -64,7 +79,6 @@ const submit = async () => {
                 </p>
 
                 <form @submit.prevent="submit" class="space-y-6">
-                    <!-- Golongan -->
                     <div>
                         <label class="block text-sm font-medium"
                             >Golongan Darah</label
@@ -80,7 +94,6 @@ const submit = async () => {
                         </select>
                     </div>
 
-                    <!-- Rhesus -->
                     <div>
                         <label class="block text-sm font-medium">Rhesus</label>
                         <select
@@ -92,7 +105,6 @@ const submit = async () => {
                         </select>
                     </div>
 
-                    <!-- Jumlah -->
                     <div>
                         <label class="block text-sm font-medium"
                             >Jumlah Kantong</label

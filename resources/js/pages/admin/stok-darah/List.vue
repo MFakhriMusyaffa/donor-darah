@@ -108,7 +108,7 @@ const confirmDelete = async () => {
         </div>
         <div
             v-if="showModal"
-            class="fixed inset-0 flex items-center justify-center bg-black/30 z-50"
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black/30"
         >
             <div
                 class="w-full max-w-sm scale-95 rounded-xl bg-white p-6 shadow-lg transition-all duration-200"

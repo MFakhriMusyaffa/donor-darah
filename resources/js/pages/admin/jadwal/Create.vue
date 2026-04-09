@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3'; // <-- Tambahkan router
 import AdminLayout from '@/components/AdminLayout.vue';
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue'; // <-- Tambahkan ref
+import Swal from 'sweetalert2'; // <-- Tambahkan SweetAlert2
 
 const form = reactive({
     event_name: '',
@@ -11,7 +12,10 @@ const form = reactive({
     detail: '',
 });
 
+const isProcessing = ref(false);
+
 const submit = async () => {
+    // Validasi kosong
     if (
         !form.event_name ||
         !form.start_event ||
@@ -19,25 +23,53 @@ const submit = async () => {
         !form.location ||
         !form.detail
     ) {
-        alert('Semua field wajib diisi!');
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Semua field wajib diisi!',
+        });
         return;
     }
 
+    // Validasi tanggal
     if (form.end_event < form.start_event) {
-        alert('Tanggal tidak valid!');
+        Swal.fire({
+            icon: 'warning',
+            title: 'Tanggal Tidak Valid',
+            text: 'Tanggal selesai tidak boleh mendahului tanggal mulai!',
+        });
         return;
     }
 
-    await fetch('/api/jadwal-kegiatan', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(form),
-    });
+    isProcessing.value = true;
 
-    alert('Berhasil ditambahkan!');
-    window.location.href = '/admin/jadwal';
+    try {
+        await fetch('/api/jadwal-kegiatan', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(form),
+        });
+
+        // Alert Sukses
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: 'Jadwal kegiatan baru berhasil ditambahkan.',
+            showConfirmButton: false,
+            timer: 1500,
+        }).then(() => {
+            router.get('/admin/jadwal'); // Pindah mulus
+        });
+    } catch (error) {
+        isProcessing.value = false;
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal',
+            text: 'Terjadi kesalahan pada server.',
+        });
+    }
 };
 </script>
 
@@ -57,7 +89,9 @@ const submit = async () => {
                 <form @submit.prevent="submit" class="space-y-6">
                     <div class="grid grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">
+                            <label
+                                class="block text-sm font-medium text-gray-700"
+                            >
                                 Nama Kegiatan
                             </label>
                             <input
@@ -69,7 +103,9 @@ const submit = async () => {
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">
+                            <label
+                                class="block text-sm font-medium text-gray-700"
+                            >
                                 Lokasi
                             </label>
                             <input
@@ -83,7 +119,9 @@ const submit = async () => {
 
                     <div class="grid grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">
+                            <label
+                                class="block text-sm font-medium text-gray-700"
+                            >
                                 Tanggal Mulai
                             </label>
                             <input
@@ -94,7 +132,9 @@ const submit = async () => {
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">
+                            <label
+                                class="block text-sm font-medium text-gray-700"
+                            >
                                 Tanggal Selesai
                             </label>
                             <input
@@ -119,9 +159,10 @@ const submit = async () => {
 
                     <button
                         type="submit"
-                        class="w-full rounded-lg bg-red-600 py-2 text-white transition hover:bg-red-700"
+                        :disabled="isProcessing"
+                        class="w-full rounded-lg bg-red-600 py-2 text-white transition hover:bg-red-700 disabled:bg-slate-400"
                     >
-                        Simpan
+                        {{ isProcessing ? 'Menyimpan...' : 'Simpan' }}
                     </button>
                 </form>
             </div>

@@ -1,7 +1,13 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import AdminLayout from '@/components/AdminLayout.vue';
-import { reactive, onMounted } from 'vue';
+import { reactive, onMounted, ref } from 'vue';
+import Swal from 'sweetalert2';
+
+// Tangkap ID langsung dari Laravel Router
+const props = defineProps<{
+    id: string | number;
+}>();
 
 const form = reactive({
     id: null as number | null,
@@ -12,39 +18,80 @@ const form = reactive({
     detail: '',
 });
 
-const getId = () => {
-    const path = window.location.pathname;
-    return path.split('/').pop();
-};
+const isProcessing = ref(false);
 
 const fetchData = async () => {
-    const id = getId();
-    const res = await fetch(`/api/jadwal-kegiatan/${id}`);
-    const result = await res.json();
+    try {
+        const res = await fetch(`/api/jadwal-kegiatan/${props.id}`);
+        const result = await res.json();
+        const data = result.data; // 🔥 penting!
 
-    const data = result.data; // 🔥 penting!
-
-    form.id = data.id;
-    form.event_name = data.event_name;
-    form.start_event = data.start_event;
-    form.end_event = data.end_event;
-    form.location = data.location;
-    form.detail = data.detail;
+        form.id = data.id;
+        form.event_name = data.event_name;
+        form.start_event = data.start_event;
+        form.end_event = data.end_event;
+        form.location = data.location;
+        form.detail = data.detail;
+    } catch (error) {
+        console.error('Gagal mengambil data', error);
+    }
 };
 
 onMounted(fetchData);
 
 const submit = async () => {
-    await fetch(`/api/jadwal-kegiatan/${form.id}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(form),
-    });
+    if (
+        !form.event_name ||
+        !form.start_event ||
+        !form.end_event ||
+        !form.location ||
+        !form.detail
+    ) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Semua field wajib diisi!',
+        });
+        return;
+    }
 
-    alert('Berhasil diupdate!');
-    window.location.href = '/admin/jadwal';
+    if (form.end_event < form.start_event) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Tanggal Tidak Valid',
+            text: 'Tanggal selesai tidak boleh mendahului tanggal mulai!',
+        });
+        return;
+    }
+
+    isProcessing.value = true;
+
+    try {
+        await fetch(`/api/jadwal-kegiatan/${form.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(form),
+        });
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: 'Jadwal kegiatan berhasil diupdate.',
+            showConfirmButton: false,
+            timer: 1500,
+        }).then(() => {
+            router.get('/admin/jadwal'); // Pindah mulus
+        });
+    } catch (error) {
+        isProcessing.value = false;
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal',
+            text: 'Terjadi kesalahan pada server.',
+        });
+    }
 };
 </script>
 
@@ -67,7 +114,9 @@ const submit = async () => {
                 <form @submit.prevent="submit" class="space-y-6">
                     <div class="grid grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">
+                            <label
+                                class="block text-sm font-medium text-gray-700"
+                            >
                                 Nama Kegiatan
                             </label>
                             <input
@@ -79,7 +128,9 @@ const submit = async () => {
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">
+                            <label
+                                class="block text-sm font-medium text-gray-700"
+                            >
                                 Lokasi
                             </label>
                             <input
@@ -93,7 +144,9 @@ const submit = async () => {
 
                     <div class="grid grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">
+                            <label
+                                class="block text-sm font-medium text-gray-700"
+                            >
                                 Tanggal Mulai
                             </label>
                             <input
@@ -104,7 +157,9 @@ const submit = async () => {
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">
+                            <label
+                                class="block text-sm font-medium text-gray-700"
+                            >
                                 Tanggal Selesai
                             </label>
                             <input
@@ -129,9 +184,10 @@ const submit = async () => {
 
                     <button
                         type="submit"
-                        class="w-full rounded-lg bg-red-600 py-2 text-white transition hover:bg-red-700"
+                        :disabled="isProcessing"
+                        class="w-full rounded-lg bg-red-600 py-2 text-white transition hover:bg-red-700 disabled:bg-slate-400"
                     >
-                        Simpan
+                        {{ isProcessing ? 'Menyimpan...' : 'Update' }}
                     </button>
                 </form>
             </div>

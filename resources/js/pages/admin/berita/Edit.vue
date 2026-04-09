@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3'; // <-- Tambahkan router
 import AdminLayout from '@/components/AdminLayout.vue';
 import { reactive, ref, onMounted } from 'vue';
 import Swal from 'sweetalert2';
@@ -14,6 +14,7 @@ const form = reactive({
 
 // State untuk menyimpan URL gambar yang akan dipreview
 const previewUrl = ref<string | null>(null);
+const isProcessing = ref(false); // Untuk disable tombol
 
 const handleFile = (e: Event) => {
     const target = e.target as HTMLInputElement;
@@ -32,12 +33,11 @@ const handleFile = (e: Event) => {
 
             target.value = '';
             form.thumbnail = null;
-            // Jangan hapus preview gambar lama jika file baru ditolak
             return;
         }
 
         form.thumbnail = file;
-        // Buat URL sementara untuk memunculkan preview gambar yang baru di-select
+        // Buat URL sementara untuk preview
         previewUrl.value = URL.createObjectURL(file);
     }
 };
@@ -58,11 +58,7 @@ const fetchData = async () => {
         form.content = data.content;
         form.publish_date = data.publish_date;
 
-        // Memunculkan gambar lama dari database
-        // Asumsi: API kamu mengembalikan nama file/path di property `thumbnail`
         if (data.thumbnail) {
-            // Sesuaikan awalan URL ini dengan struktur storage Laravel kamu
-            // Misalnya: `/storage/berita/${data.thumbnail}` atau langsung dari API
             previewUrl.value = `/storage/${data.thumbnail}`;
         }
     } catch (error) {
@@ -83,6 +79,7 @@ const submit = async () => {
         return;
     }
 
+    isProcessing.value = true;
     const formData = new FormData();
 
     formData.append('title', form.title);
@@ -113,9 +110,10 @@ const submit = async () => {
             showConfirmButton: false,
             timer: 1500,
         }).then(() => {
-            window.location.href = '/admin/berita';
+            router.get('/admin/berita'); // <-- Pindah mulus
         });
     } catch (error) {
+        isProcessing.value = false;
         Swal.fire({
             icon: 'error',
             title: 'Gagal',
@@ -130,7 +128,7 @@ const submit = async () => {
     <Head title="Edit Berita" />
 
     <AdminLayout title="Berita">
-        <div class="flex min-h-screen items-center justify-center">
+        <div class="flex min-h-screen items-center justify-center py-10">
             <div class="w-full max-w-3xl rounded-xl bg-white p-8 shadow-md">
                 <div class="mb-8 text-center">
                     <h1 class="text-2xl font-bold text-red-600">Edit Berita</h1>
@@ -141,9 +139,9 @@ const submit = async () => {
 
                 <form @submit.prevent="submit" class="space-y-6">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">
-                            Judul
-                        </label>
+                        <label class="block text-sm font-medium text-gray-700"
+                            >Judul</label
+                        >
                         <input
                             type="text"
                             v-model="form.title"
@@ -153,9 +151,9 @@ const submit = async () => {
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">
-                            Content
-                        </label>
+                        <label class="block text-sm font-medium text-gray-700"
+                            >Content</label
+                        >
                         <textarea
                             rows="4"
                             v-model="form.content"
@@ -165,9 +163,9 @@ const submit = async () => {
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">
-                            Tanggal Publish
-                        </label>
+                        <label class="block text-sm font-medium text-gray-700"
+                            >Tanggal Publish</label
+                        >
                         <input
                             type="date"
                             v-model="form.publish_date"
@@ -176,21 +174,34 @@ const submit = async () => {
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">
-                            Thumbnail
-                        </label>
+                        <label class="block text-sm font-medium text-gray-700"
+                            >Thumbnail</label
+                        >
                         <input
                             type="file"
                             @change="handleFile"
-                            class="mt-1 w-full"
+                            accept="image/*"
+                            class="mt-1 w-full text-sm text-slate-500 file:mr-4 file:rounded-full file:border-0 file:bg-red-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-red-700 hover:file:bg-red-100"
                         />
+
+                        <div v-if="previewUrl" class="mt-4">
+                            <p class="mb-2 text-xs text-slate-500">
+                                Preview Gambar:
+                            </p>
+                            <img
+                                :src="previewUrl"
+                                alt="Preview Thumbnail"
+                                class="h-48 w-auto rounded-lg border border-slate-200 object-cover shadow-sm"
+                            />
+                        </div>
                     </div>
 
                     <button
                         type="submit"
-                        class="w-full rounded-lg bg-red-600 py-2 text-white transition hover:bg-red-700"
+                        :disabled="isProcessing"
+                        class="w-full rounded-lg bg-red-600 py-2 text-white transition hover:bg-red-700 disabled:bg-slate-400"
                     >
-                        Update Berita
+                        {{ isProcessing ? 'Memperbarui...' : 'Update Berita' }}
                     </button>
                 </form>
             </div>
