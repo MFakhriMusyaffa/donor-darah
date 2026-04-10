@@ -4,7 +4,7 @@ import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/AuthLayout.vue';
-import { logout } from '@/routes';
+// import { logout } from '@/routes';
 import { send } from '@/routes/verification';
 
 defineProps<{
@@ -38,7 +38,7 @@ defineProps<{
             </Button>
 
             <TextLink
-                :href="logout().url"
+                href="/logout"
                 method="post"
                 as="button"
                 class="mx-auto block text-sm"
